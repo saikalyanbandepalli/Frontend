@@ -9,6 +9,7 @@ const LandingPage = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,15 +33,55 @@ const LandingPage = () => {
   }, []);
 
   const handleLoginClick = () => {
-    navigate("/jobportal");
+    navigate("/loginpage");
+  };
+
+  const handleRegisterClick = (type) => {
+    if (type === "job-seeker") {
+      navigate("/Jobseekeregisteration"); 
+    } else if (type === "employer") {
+      navigate("/employer-registration"); 
+    }
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
   };
 
   return (
     <div className="landing-container">
-      <nav className="landing-navbar navbar navbar-expand-lg fixed-top">
+      <nav className="landing-navbar navbar">
         <a className="navbar-brand" href="#">
           RevHire Portal
         </a>
+        <div className="navbar-nav ml-auto">
+          <div className="nav-item dropdown">
+            <button
+              className="nav-link dropdown-toggle register-button"
+              onClick={toggleDropdown}
+            >
+              Register
+            </button>
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => handleRegisterClick("job-seeker")}
+                >
+                  Job Seeker
+                </a>
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => handleRegisterClick("employer")}
+                >
+                  Employer
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
       </nav>
 
       <div className="hero-section">
