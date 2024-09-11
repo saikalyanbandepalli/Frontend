@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./JobPortal.css";
+import "../Styles/JobPortalDashBoard.css";
 import logo from "../images/revhire_logo.png";
 
 // Sample Data for Jobs
@@ -53,7 +53,7 @@ const salaryRanges = [
   "25 - 30 lpa",
 ];
 
-const JobPortal = () => {
+const JobPortalDashBoard = () => {
   // States to manage input values and suggestions
   const [categoryInput, setCategoryInput] = useState("");
   const [jobTypeInput, setJobTypeInput] = useState("");
@@ -184,4 +184,4 @@ const JobPortal = () => {
   );
 };
 
-export default JobPortal;
+export default JobPortalDashBoard;

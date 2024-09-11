@@ -3,7 +3,7 @@ import api from "../../config/api";
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import { useNavigate } from "react-router-dom";
-import "./LandingPage.css";
+import "../Styles/LandingPage.css";
 
 const LandingPage = () => {
   const [jobs, setJobs] = useState([]);
