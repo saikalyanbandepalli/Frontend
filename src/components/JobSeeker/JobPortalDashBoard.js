@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "../Styles/JobPortalDashBoard.css";
 import logo from "../images/revhire_logo.png";
-import com1 from "../images/com1.jpg";
-import com2 from "../images/com2.jpg";
-import com3 from "../images/com3.jpg";
-import com4 from "../images/com4.jpg";
-import com5 from "../images/com5.jpg";
-import com6 from "../images/com6.jpg";
-import com7 from "../images/com7.jpg";
-import com8 from "../images/com8.jpg";
+import com1 from "../images/com1_valid.jpg";
+import com2 from "../images/com2_valid.jpg";
+import com3 from "../images/com3_valid.jpg";
+import com4 from "../images/com4_valid.jpg";
+import com5 from "../images/com5_valid.jpg";
+import com6 from "../images/com6_valid.jpg";
+import com7 from "../images/com7_valid.jpg";
+import com8 from "../images/com8_valid.jpg";
 import { jobs, jobSeekers } from "../JobSeeker/JobDummyData";
-import ProfileComponent from "./ProfileComponent";
+// import ProfileComponent from "./ProfileComponent";
 
 const currentJobSeeker = jobSeekers[0];
 
@@ -137,9 +137,9 @@ const JobPortalDashBoard = () => {
             <a href="#profile">Profile</a>
           </li>
         </ul>
-        <div className="navbar-profile">
+        {/* <div className="navbar-profile">
           <img src={ProfileComponent} alt="Profile" className="profile-pic" />
-        </div>
+        </div> */}
       </nav>
 
       <header className="job-portal-header">
