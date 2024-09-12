@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/LoginPage.css";
-import api from "../../config/api"
+import api from "../../config/api";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -27,14 +27,11 @@ const LoginPage = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-    
         const response = await api.post("/users/login", formData);
-        
         if (response.status === 200) {
-          navigate("/JobPortal");
+          navigate("/JobPortal"); // Change to the correct path if necessary
         }
       } catch (error) {
-
         setApiError("Invalid email or password. Please try again.");
       }
     }
@@ -45,6 +42,10 @@ const LoginPage = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSignUpClick = () => {
+    navigate("/"); // Redirect to the landing page
   };
 
   return (
@@ -63,7 +64,10 @@ const LoginPage = () => {
             Please log in to access your dashboard and manage your job search.
           </p>
           <p className="additional-text">
-            New to RevHire? <a href="/signup" className="signup-link">Sign up here</a>
+            New to RevHire?{" "}
+            <button onClick={handleSignUpClick} className="signup-link">
+              Sign up here
+            </button>
           </p>
         </div>
         <div className="login-form-container">

@@ -33,14 +33,14 @@ const LandingPage = () => {
   }, []);
 
   const handleLoginClick = () => {
-    navigate("/loginpage");
+    navigate("/login");
   };
 
   const handleRegisterClick = (type) => {
     if (type === "job-seeker") {
-      navigate("/Jobseekeregisteration"); 
+      navigate("/Jobseekeregisteration");
     } else if (type === "employer") {
-      navigate("/employer-registration"); 
+      navigate("/Employerregistration");
     }
   };
 
