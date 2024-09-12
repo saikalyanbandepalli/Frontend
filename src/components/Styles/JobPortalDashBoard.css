@@ -105,8 +105,9 @@
 
 /* Job Listings */
 .job-listings {
+  margin: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -117,11 +118,14 @@
   background-color: #f9f9f9;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 350px;
 }
 
 .company-logo {
-  max-width: 50px;
-  margin-bottom: 15px;
+  max-width: 100px;
+  max-height: 100px;
+  margin-bottom: 5px;
+  border-radius: 5%;
 }
 
 .job-card h3 {
@@ -140,5 +144,30 @@
   text-align: center;
   margin-top: 40px;
   padding: 20px;
-  background-color: #f1f1f1;
+  background-color: #333;
+  color: #fff;
+}
+.knowmore {
+  background-color: #ff005c;
+  color: #fff;
+  padding: 3%;
+  border-radius: 5%;
+}
+.job-details-card {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 80%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.job-details-card button {
+  display: block;
+  margin: 10px auto;
 }
