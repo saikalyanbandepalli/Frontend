@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/Jobseekereg.css";
@@ -16,7 +18,6 @@ const EmployerRegistration = () => {
     address: "",
   });
   const [errors, setErrors] = useState({});
-  const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -57,20 +58,18 @@ const EmployerRegistration = () => {
           address: formData.address,
         });
         if (response.status === 200) {
-          console.log("Registration successful. Redirecting to login page...");
-          navigate("/login"); // Corrected path
+          toast.success("Registration successful. Redirecting to login...");
+          setTimeout(() => navigate("/login"), 5000); 
         } else {
-          console.error("Unexpected response status:", response.status);
-          setApiError("Registration was successful, but we received an unexpected response.");
+          toast.error("Unexpected response from the server. Please try again.");
         }
       } catch (error) {
-        console.error("Error occurred during registration:", error);
-        setApiError("An error occurred while registering. Please try again.");
+        toast.error("An error occurred while registering. Please try again.");
       }
+    } else {
+      toast.error("Please fix the errors in the form.");
     }
   };
-  
-  
 
   const handleInputChange = (e) => {
     setFormData({
@@ -195,8 +194,6 @@ const EmployerRegistration = () => {
               {errors.address && <p className="error-message">{errors.address}</p>}
             </div>
 
-            {apiError && <p className="api-error-message">{apiError}</p>}
-
             <button type="submit" className="custom-button btn">
               Register
             </button>
@@ -204,6 +201,8 @@ const EmployerRegistration = () => {
         </div>
       </div>
 
+      <ToastContainer />
+      
       <footer className="registration-footer">
         <p>&copy; 2024 RevHire. All rights reserved.</p>
       </footer>

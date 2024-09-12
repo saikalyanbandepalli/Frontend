@@ -29,7 +29,7 @@ const LoginPage = () => {
       try {
         const response = await api.post("/users/login", formData);
         if (response.status === 200) {
-          navigate("/JobPortal"); // Change to the correct path if necessary
+          navigate("/JobPortal"); 
         }
       } catch (error) {
         setApiError("Invalid email or password. Please try again.");
@@ -45,7 +45,11 @@ const LoginPage = () => {
   };
 
   const handleSignUpClick = () => {
-    navigate("/"); // Redirect to the landing page
+    navigate("/"); 
+  };
+
+  const handleForgotPasswordClick = () => {
+    navigate("/Forgotpassword"); 
   };
 
   return (
@@ -106,6 +110,12 @@ const LoginPage = () => {
             <button type="submit" className="custom-button btn">
               Log In
             </button>
+
+            <p className="forgot-password-link">
+              <button onClick={handleForgotPasswordClick} className="link-button">
+                Forgot your password?
+              </button>
+            </p>
           </form>
         </div>
       </div>
