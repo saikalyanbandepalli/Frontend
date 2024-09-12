@@ -31,15 +31,15 @@
 }
 
 .register-button {
-  background-color: #FFFFFF; /* White background for contrast */
-  color: #6300B3; /* Purple text color */
+  background-color: #FFFFFF; 
+  color: #6300B3; 
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.1rem;
-  text-decoration: none; /* Remove underline */
-  margin-right: 40px; /* Padding from the right edge */
+  text-decoration: none;
+  margin-right: 40px;
 }
 
 .dropdown-menu {

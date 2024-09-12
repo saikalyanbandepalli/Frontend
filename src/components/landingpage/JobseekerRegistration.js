@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/Jobseekereg.css";
@@ -50,10 +52,13 @@ const JobseekerRegistration = () => {
       try {
         const response = await api.post("/users/register", formData);
         if (response.status === 201) {
-          navigate("/loginpage"); // Redirect to login page after successful registration
+          toast.success("Registration successful! Redirecting to login...");
+          setTimeout(() => {
+            navigate("/login");
+          }, 5000);
         }
       } catch (error) {
-        setApiError("An error occurred while registering. Please try again.");
+        toast.error("An error occurred during registration. Please try again.");
       }
     }
   };
@@ -189,6 +194,8 @@ const JobseekerRegistration = () => {
           </form>
         </div>
       </div>
+
+      <ToastContainer /> 
 
       <footer className="registration-footer">
         <p>&copy; 2024 RevHire. All rights reserved.</p>
