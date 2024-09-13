@@ -1,0 +1,50 @@
+.resume-form {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resume-form h2, .resume-form h3 {
+    text-align: center;
+  }
+  
+  .resume-form label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  .resume-form input, .resume-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .resume-form textarea {
+    resize: vertical;
+  }
+  
+  .resume-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .resume-form button:hover {
+    background-color: #218838;
+  }
+  
+  .resume-form section {
+    margin-bottom: 20px;
+  }
+  
