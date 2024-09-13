@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/LoginPage.css";
-import api from "../../config/api";
+import api from "../../config/api"; 
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", userType: "jobseeker" });
   const [errors, setErrors] = useState({});
-  const [apiError, setApiError] = useState(""); 
+  const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -22,16 +22,35 @@ const LoginPage = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await api.post("/users/login", formData);
+        const loginEndpoint = formData.userType === "jobseeker" ? "/users/login" : "/employers/login";
+        
+        const response = await api.post(loginEndpoint, {
+          email: formData.email,
+          password: formData.password,
+        });
+  
+        console.log("Response status:", response.status); 
+        console.log("Response data:", response.data); 
+  
         if (response.status === 200) {
-          navigate("/JobPortal"); 
+          const userData = response.data.data; 
+          const role = userData.role;
+          if (role === "JOB_SEEKER") {
+            navigate("/JobPortal");
+          } else if (role === "EMPLOYER") {
+            navigate("/EmployerDashboard");
+          } else {
+            setApiError("Unexpected user role. Please try again.");
+          }
+        } else {
+          setApiError("Unexpected response status: " + response.status);
         }
       } catch (error) {
+        console.error("Login error:", error); 
         setApiError("Invalid email or password. Please try again.");
       }
     }
@@ -46,10 +65,6 @@ const LoginPage = () => {
 
   const handleSignUpClick = () => {
     navigate("/"); 
-  };
-
-  const handleForgotPasswordClick = () => {
-    navigate("/Forgotpassword"); 
   };
 
   return (
@@ -77,6 +92,20 @@ const LoginPage = () => {
         <div className="login-form-container">
           <img src={heroImage} alt="Hero" className="img-fluid login-hero-image" />
           <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="userType">User Type</label>
+              <select
+                name="userType"
+                id="userType"
+                className="form-control"
+                value={formData.userType}
+                onChange={handleInputChange}
+              >
+                <option value="employer">Employer</option>
+                <option value="jobseeker">Job Seeker</option>
+              </select>
+            </div>
+
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -106,16 +135,10 @@ const LoginPage = () => {
             </div>
 
             {apiError && <p className="api-error-message">{apiError}</p>}
-            
+
             <button type="submit" className="custom-button btn">
               Log In
             </button>
-
-            <p className="forgot-password-link">
-              <button onClick={handleForgotPasswordClick} className="link-button">
-                Forgot your password?
-              </button>
-            </p>
           </form>
         </div>
       </div>
