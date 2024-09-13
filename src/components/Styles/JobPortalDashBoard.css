@@ -1,12 +1,17 @@
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  /* background-color: #333; */
+  background-color: #6300b3;
   padding: 10px 20px;
   position: sticky;
   top: 0;
   z-index: 1000;
+  margin-top: -1%;
+  margin-left: -1%;
+  margin-right: -1%;
 }
 
 .navbar-logo img {
@@ -49,7 +54,9 @@
 
 .navbar-search button {
   padding: 6px 10px;
-  background-color: #ff005c;
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
+
   color: white;
   border: none;
   border-radius: 0 4px 4px 0;
@@ -71,7 +78,8 @@
 
 .job-portal-header h1 {
   font-size: 36px;
-  color: #ff005c;
+  /* color: #ff005c; */
+  color: #6300b3;
 }
 
 .job-portal-header p {
@@ -95,13 +103,15 @@
 
 .job-search-section button {
   padding: 10px 20px;
-  background-color: #ff005c;
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
+/* Job Listings */
 .job-listings {
   margin: 0;
   display: grid;
@@ -136,26 +146,34 @@
   color: #666;
   margin: 5px 0;
 }
+
+/* Footer */
 .job-portal-footer {
   text-align: center;
   margin-top: 40px;
   padding: 20px;
   background-color: #333;
+  background-color: #6300b3;
   color: #fff;
+  margin-bottom: -1%;
+  margin-left: -1%;
+  margin-right: -1%;
 }
 .knowmore {
-  background-color: #ff005c;
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
   color: #fff;
   padding: 3%;
   border-radius: 5%;
+  margin-top: 4%;
 }
 .job-details-card {
   position: fixed;
-  top: 30%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, 0);
   width: 80%;
-  max-width: 600px;
+  max-width: 700px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -166,4 +184,16 @@
 .job-details-card button {
   display: block;
   margin: 10px auto;
+}
+.apply-button {
+  background-color: #6300b3;
+  color: white;
+  font-weight: bolder;
+  padding: 2%;
+}
+.close-button {
+  background-color: #6300b3;
+  font-weight: bolder;
+  color: white;
+  padding: 1%;
 }

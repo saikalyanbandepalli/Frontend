@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Styles/JobPortalDashBoard.css";
 import logo from "../images/revhire_logo.png";
 import com1 from "../images/com1_valid.jpg";
@@ -9,48 +9,63 @@ import com5 from "../images/com5_valid.jpg";
 import com6 from "../images/com6_valid.jpg";
 import com7 from "../images/com7_valid.jpg";
 import com8 from "../images/com8_valid.jpg";
-import { jobs, jobSeekers } from "../JobSeeker/JobDummyData";
-// import ProfileComponent from "./ProfileComponent";
-
-const currentJobSeeker = jobSeekers[0];
+import api1 from "../../config/api1";
+import { useLocation } from "react-router-dom";
 
 const JobPortalDashBoard = () => {
   const [categoryInput, setCategoryInput] = useState("");
   const [jobTypeInput, setJobTypeInput] = useState("");
   const [salaryRangeInput, setSalaryRangeInput] = useState("");
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [showJobDetails, setShowJobDetails] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [notEligibleMessage, setNotEligibleMessage] = useState("");
+  const location = useLocation();
+  const { userDetails } = location.state || {}; // Retrieve userDetails from the passed location state
 
   const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
 
+  // Randomly select a company logo
   const getRandomLogo = () => {
     const randomIndex = Math.floor(Math.random() * companyLogos.length);
     return companyLogos[randomIndex];
   };
 
+  // Fetch jobs when the component is mounted
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await api1.get("/jobs/all");
+        setJobs(response.data);
+        setFilteredJobs(response.data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+    fetchJobs();
+  }, []);
+
+  // Filter jobs based on user input
   const filterJobs = () => {
     let filtered = jobs;
 
     if (categoryInput) {
       filtered = filtered.filter((job) =>
-        job.category.toLowerCase().includes(categoryInput.toLowerCase())
+        job.category.categoryName
+          .toLowerCase()
+          .includes(categoryInput.toLowerCase())
       );
     }
     if (jobTypeInput) {
       filtered = filtered.filter((job) =>
-        job.employmentType.toLowerCase().includes(jobTypeInput.toLowerCase())
+        job.jobType.toLowerCase().includes(jobTypeInput.toLowerCase())
       );
     }
     if (salaryRangeInput) {
-      const userSalary = parseInt(salaryRangeInput.replace(/[^\d]/g, ""));
       filtered = filtered.filter((job) => {
-        const [minSalary, maxSalary] = job.salary
-          .split("-")
-          .map((range) => parseInt(range.replace(/[^\d]/g, "")));
-        return userSalary >= minSalary && userSalary <= maxSalary;
+        const salaryRange = job.salaryRange.toLowerCase();
+        return salaryRange.includes(salaryRangeInput.toLowerCase());
       });
     }
 
@@ -58,62 +73,42 @@ const JobPortalDashBoard = () => {
     setShowAllJobs(false);
   };
 
+  // Show all jobs without filtering
   const showAllJobsHandler = () => {
     setFilteredJobs(jobs);
     setShowAllJobs(true);
   };
 
+  // Show detailed information for a selected job
   const handleKnowMoreClick = (job) => {
     setSelectedJob(job);
     setShowJobDetails(true);
-    setNotEligibleMessage("");
   };
 
-  const handleApplyClick = () => {
-    if (selectedJob) {
-      // Parse job seeker's experience
-      const jobSeekerExperience = parseInt(
-        currentJobSeeker.experience.split(" ")[0]
-      );
-
-      // Parse job's experience range
-      const [jobMinExperience, jobMaxExperience] = selectedJob.experience
-        .split(" - ")
-        .map((exp) => parseInt(exp));
-
-      // Check if job seeker's experience falls within the job's range
-      const experienceMatch =
-        jobSeekerExperience >= jobMinExperience &&
-        jobSeekerExperience <= jobMaxExperience;
-
-      // Check skills match
-      const skillsMatch = selectedJob.skills.every((skill) =>
-        currentJobSeeker.skills.includes(skill)
-      );
-
-      // Parse job's year of passing range
-      const [jobStartYear, jobEndYear] = selectedJob.yearOfPassing
-        .split(" - ")
-        .map((year) => parseInt(year.trim()));
-
-      // Check if job seeker's year of passing is within the job's range
-      const yearOfPassingMatch =
-        currentJobSeeker.yearOfPassing >= jobStartYear &&
-        currentJobSeeker.yearOfPassing <= jobEndYear;
-
-      if (experienceMatch && skillsMatch && yearOfPassingMatch) {
+  // Apply for a job
+  const handleApplyClick = async () => {
+    if (selectedJob && userDetails) {
+      try {
+        await api1.post("/appliedJobs/apply", null, {
+          params: {
+            jobId: selectedJob.jobId,
+            jobSeekerId: userDetails.id,
+          },
+        });
         alert("Application submitted successfully!");
-      } else {
-        setNotEligibleMessage("You are not eligible to apply for this job.");
+      } catch (error) {
+        const message = error.response?.data || "An unexpected error occurred.";
+        alert(`Application failed: ${message}`);
       }
     }
   };
 
+  // Close job details modal
   const handleCloseJobDetails = () => {
     setShowJobDetails(false);
   };
 
-  const displayedJobs = showAllJobs ? filteredJobs : filteredJobs.slice(0, 8);
+  const displayedJobs = showAllJobs ? filteredJobs : filteredJobs.slice(0, 8); // Limit job cards to 8 if not showing all jobs
 
   return (
     <div className="job-portal-container">
@@ -126,24 +121,21 @@ const JobPortalDashBoard = () => {
             <a href="/jobportal">Home</a>
           </li>
           <li>
-            <a href="#jobs" onClick={showAllJobsHandler}>
+            <a onClick={showAllJobsHandler} className="all-jobs-button">
               All Jobs
             </a>
           </li>
           <li>
-            <a href="#">My jobs</a>
+            <a href="#">My Jobs</a>
           </li>
           <li>
             <a href="#profile">Profile</a>
           </li>
         </ul>
-        {/* <div className="navbar-profile">
-          <img src={ProfileComponent} alt="Profile" className="profile-pic" />
-        </div> */}
       </nav>
 
       <header className="job-portal-header">
-        <h1>Find your dream job now!</h1>
+        <h1>Find Your Dream Job Now!</h1>
         <p>Select a role and we'll show you relevant jobs for it!</p>
       </header>
 
@@ -156,7 +148,6 @@ const JobPortalDashBoard = () => {
             onChange={(e) => setCategoryInput(e.target.value)}
           />
         </div>
-
         <div className="input-group">
           <input
             type="text"
@@ -165,7 +156,6 @@ const JobPortalDashBoard = () => {
             onChange={(e) => setJobTypeInput(e.target.value)}
           />
         </div>
-
         <div className="input-group">
           <input
             type="text"
@@ -174,7 +164,6 @@ const JobPortalDashBoard = () => {
             onChange={(e) => setSalaryRangeInput(e.target.value)}
           />
         </div>
-
         <button onClick={filterJobs}>Search</button>
       </div>
 
@@ -186,11 +175,11 @@ const JobPortalDashBoard = () => {
               alt="Company Logo"
               className="company-logo"
             />
-            <h3>{job.title}</h3>
-            <p>{job.category}</p>
-            <p>{job.employmentType}</p>
-            <p>Salary: {job.salary}</p>
-            <p>Experience: {job.experience}</p>
+            <h3>{job.jobTitle}</h3>
+            <p>Company: {job.companyName}</p>
+            <p>Job Type: {job.jobType}</p>
+            <p>Salary Range: {job.salaryRange}</p>
+            <p>Experience: {job.experienceRequired}</p>
             <button
               onClick={() => handleKnowMoreClick(job)}
               className="knowmore"
@@ -201,52 +190,41 @@ const JobPortalDashBoard = () => {
         ))}
       </div>
 
-      {showJobDetails && (
+      {showJobDetails && selectedJob && (
         <div className="job-details-card">
-          {selectedJob && (
-            <>
-              <button onClick={handleCloseJobDetails} className="close-button">
-                Close
-              </button>
-              <h2>{selectedJob.title}</h2>
-              <p>
-                <strong>Category:</strong> {selectedJob.category}
-              </p>
-              <p>
-                <strong>Employment Type:</strong> {selectedJob.employmentType}
-              </p>
-              <p>
-                <strong>Salary:</strong> {selectedJob.salary}
-              </p>
-              <p>
-                <strong>Experience:</strong> {selectedJob.experience}
-              </p>
-              <p>
-                <strong>Skills:</strong> {selectedJob.skills.join(", ")}
-              </p>
-              <p>
-                <strong>Year of Passing:</strong> {selectedJob.yearOfPassing}
-              </p>
-              <p>
-                <strong>Qualification:</strong> {selectedJob.qualification}
-              </p>
-              <p>
-                <strong>Shifts:</strong> {selectedJob.shifts}
-              </p>
-              <p>
-                <strong>Required Percentage:</strong>{" "}
-                {selectedJob.requiredPercentage}%
-              </p>
-              <button className="apply-button" onClick={handleApplyClick}>
-                Apply Now
-              </button>
-              {notEligibleMessage && (
-                <p className="error-message">{notEligibleMessage}</p>
-              )}
-            </>
-          )}
+          <button onClick={handleCloseJobDetails} className="close-button">
+            Close
+          </button>
+          <h2>{selectedJob.jobTitle}</h2>
+          <p>
+            <strong>Company:</strong> {selectedJob.companyName}
+          </p>
+          <p>
+            <strong>Description:</strong> {selectedJob.jobDescription}
+          </p>
+          <p>
+            <strong>Category:</strong> {selectedJob.category.categoryName}
+          </p>
+          <p>
+            <strong>Salary:</strong> {selectedJob.salaryRange}
+          </p>
+          <p>
+            <strong>Experience Required:</strong>{" "}
+            {selectedJob.experienceRequired}
+          </p>
+          <p>
+            <strong>Location:</strong> {selectedJob.location}
+          </p>
+          <p>
+            <strong>End Date:</strong>{" "}
+            {new Date(selectedJob.endDate).toLocaleDateString()}
+          </p>
+          <button onClick={handleApplyClick} className="apply-button">
+            Apply
+          </button>
         </div>
       )}
+
       <footer className="job-portal-footer">
         <p>&copy; 2024 Online Job Portal. All rights reserved.</p>
       </footer>
