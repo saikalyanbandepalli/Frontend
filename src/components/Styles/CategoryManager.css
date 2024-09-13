@@ -1,0 +1,134 @@
+/* Container for the Category Manager */
+#category-manager-container {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 900px;
+    max-width: 100%;
+    margin: 50px auto;
+  }
+  
+  /* Titles */
+  .category-title, .category-subtitle {
+    text-align: center;
+    color: #6300B3;
+  }
+  
+  .category-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .category-subtitle {
+    font-size: 22px;
+    margin: 20px 0;
+  }
+  
+  /* Category Form Styles */
+  #category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .category-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #303030;
+  }
+  
+  .category-form-input,
+  .category-form-textarea {
+    padding: 10px;
+    border: 1px solid #6300B3;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+  }
+  
+  .category-form-textarea {
+    resize: vertical;
+  }
+  
+  /* Create/Update Button */
+  #category-form button {
+    background-color: #7b529c; /* Green for create/update */
+    color: #FFFFFF;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  #category-form button:hover {
+    background-color: #6f1db3;
+  }
+  
+  /* Table Styles */
+  #category-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  #category-table th, #category-table td {
+    border: 1px solid #6300B3;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  #category-table th {
+    background-color: #6300B3;
+    color: #FFFFFF;
+  }
+  
+  #category-table tr:nth-child(even) {
+    background-color: #EFE2F8;
+  }
+  
+  /* Button Container for Actions */
+  #category-table td .button-container {
+    display: inline-flex;
+    gap: 5px; /* Space between buttons */
+  }
+  
+  /* Edit Button */
+  .edit-button {
+    background-color: #6300B3;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button:hover {
+    background-color: #303030;
+  }
+  
+  /* Delete Button */
+  .delete-button {
+    background-color: black; /* Red color for delete */
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    background-color: black;
+  }
+  

@@ -97,7 +97,7 @@ const EmployerRegistration = () => {
           <img id="registration-logo" src={logo} alt="RevHire Logo" />
           <h2 className="registration-title">Create Your Account</h2>
           <p className="registration-description">
-            Fill in the details below to register as a Job Seeker.
+            Fill in the details below to register as a Employer
           </p>
         </div>
         <div className="registration-form-container">
