@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify"; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/Jobseekereg.css";
@@ -9,15 +9,16 @@ import api from "../../config/api";
 
 const EmployerRegistration = () => {
   const [formData, setFormData] = useState({
-    userName: "",
+    employerName: "",
     password: "",
     email: "",
     firstName: "",
     lastName: "",
     contactNumber: "",
-    address: "",
+    address: ""
   });
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -46,30 +47,35 @@ const EmployerRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (validateForm()) {
       try {
-        const response = await api.post("/employers/register", {
-          username: formData.userName,
-          password: formData.password,
+        // Map formData to the desired API format
+        const formattedData = {
+          employerName: formData.employerName,
           email: formData.email,
+          password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
           contactNumber: formData.contactNumber,
           address: formData.address,
-        });
-        if (response.status === 200) {
-          toast.success("Registration successful. Redirecting to login...");
-          setTimeout(() => navigate("/login"), 5000); 
-        } else {
-          toast.error("Unexpected response from the server. Please try again.");
+        };
+        
+        
+        const response = await api.post("/employers/register", formattedData); // Submit formatted data
+        
+        if (response.status === 201) {
+          toast.success("Registration successful! Redirecting to login...");
+          setTimeout(() => {
+            navigate("/login");
+          }, 5000);
         }
       } catch (error) {
-        toast.error("An error occurred while registering. Please try again.");
+        toast.error("An error occurred during registration. Please try again.");
       }
-    } else {
-      toast.error("Please fix the errors in the form.");
     }
   };
+  
 
   const handleInputChange = (e) => {
     setFormData({
@@ -89,22 +95,22 @@ const EmployerRegistration = () => {
       <div className="registration-hero-section">
         <div className="registration-hero-text">
           <img id="registration-logo" src={logo} alt="RevHire Logo" />
-          <h2 className="registration-title">Create Your Employer Account</h2>
+          <h2 className="registration-title">Create Your Account</h2>
           <p className="registration-description">
-            Fill in the details below to register as an Employer.
+            Fill in the details below to register as a Job Seeker.
           </p>
         </div>
         <div className="registration-form-container">
           <img src={heroImage} alt="Hero" className="img-fluid registration-hero-image" />
           <form className="registration-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="userName">Username</label>
+              <label htmlFor="employerName">Username</label>
               <input
                 type="text"
-                name="userName"
+                name="employerName"
                 id="userName"
                 className="form-control"
-                value={formData.userName}
+                value={formData.employerName}
                 onChange={handleInputChange}
                 required
               />
@@ -194,6 +200,8 @@ const EmployerRegistration = () => {
               {errors.address && <p className="error-message">{errors.address}</p>}
             </div>
 
+            {apiError && <p className="api-error-message">{apiError}</p>}
+
             <button type="submit" className="custom-button btn">
               Register
             </button>
@@ -201,8 +209,8 @@ const EmployerRegistration = () => {
         </div>
       </div>
 
-      <ToastContainer />
-      
+      <ToastContainer /> 
+
       <footer className="registration-footer">
         <p>&copy; 2024 RevHire. All rights reserved.</p>
       </footer>

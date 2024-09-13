@@ -6,7 +6,11 @@ import "../Styles/LoginPage.css";
 import api from "../../config/api"; 
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({ email: "", password: "", userType: "jobseeker" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    userType: "jobseeker", 
+  });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
@@ -22,39 +26,46 @@ const LoginPage = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const loginEndpoint = formData.userType === "jobseeker" ? "/users/login" : "/employers/login";
-        
+        const loginEndpoint =
+          formData.userType === "jobseeker"
+            ? "/users/login"
+            : "/employers/login"; 
+  
         const response = await api.post(loginEndpoint, {
           email: formData.email,
           password: formData.password,
         });
   
-        console.log("Response status:", response.status); 
-        console.log("Response data:", response.data); 
+        console.log("Response status:", response.status);
+        console.log("Response data:", response.data);
   
         if (response.status === 200) {
           const userData = response.data.data; 
-          const role = userData.role;
-          if (role === "JOB_SEEKER") {
-            navigate("/JobPortal");
-          } else if (role === "EMPLOYER") {
-            navigate("/EmployerDashboard");
+  
+          if (formData.userType === "jobseeker") {
+            const role = userData.role;
+            if (role === "JOB_SEEKER") {
+              navigate("/JobPortal", { state: { user: userData } }); 
+            } else {
+              setApiError("Unexpected user role. Please try again.");
+            }
           } else {
-            setApiError("Unexpected user role. Please try again.");
+            navigate("/EmployerDashboard", { state: { user: userData } });
           }
         } else {
           setApiError("Unexpected response status: " + response.status);
         }
       } catch (error) {
-        console.error("Login error:", error); 
+        console.error("Login error:", error);
         setApiError("Invalid email or password. Please try again.");
       }
     }
-  };
+  };  
 
   const handleInputChange = (e) => {
     setFormData({
