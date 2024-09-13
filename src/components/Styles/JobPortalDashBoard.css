@@ -1,0 +1,199 @@
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #333; */
+  background-color: #6300b3;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin-top: -1%;
+  margin-left: -1%;
+  margin-right: -1%;
+}
+
+.navbar-logo img {
+  max-height: 40px;
+  border-radius: 7%;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+}
+
+.navbar-links li a:hover {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.navbar-search {
+  display: flex;
+}
+
+.navbar-search input {
+  padding: 5px;
+  border-radius: 4px 0 0 4px;
+  border: none;
+  width: 200px;
+}
+
+.navbar-search button {
+  padding: 6px 10px;
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
+
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Basic Layout Styles */
+.job-portal-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.job-portal-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.job-portal-header h1 {
+  font-size: 36px;
+  /* color: #ff005c; */
+  color: #6300b3;
+}
+
+.job-portal-header p {
+  font-size: 18px;
+  color: #333;
+}
+
+/* Job Search Section */
+.job-search-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.job-search-section input {
+  padding: 10px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.job-search-section button {
+  padding: 10px 20px;
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Job Listings */
+.job-listings {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.job-card {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+}
+
+.company-logo {
+  max-width: 100px;
+  max-height: 100px;
+  margin-bottom: 5px;
+  border-radius: 5%;
+}
+
+.job-card h3 {
+  font-size: 22px;
+  color: #333;
+}
+
+.job-card p {
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Footer */
+.job-portal-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #333;
+  background-color: #6300b3;
+  color: #fff;
+  margin-bottom: -1%;
+  margin-left: -1%;
+  margin-right: -1%;
+}
+.knowmore {
+  /* background-color: #ff005c; */
+  background-color: #6300b3;
+  color: #fff;
+  padding: 3%;
+  border-radius: 5%;
+  margin-top: 4%;
+}
+.job-details-card {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 80%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.job-details-card button {
+  display: block;
+  margin: 10px auto;
+}
+.apply-button {
+  background-color: #6300b3;
+  color: white;
+  font-weight: bolder;
+  padding: 2%;
+}
+.close-button {
+  background-color: #6300b3;
+  font-weight: bolder;
+  color: white;
+  padding: 1%;
+}

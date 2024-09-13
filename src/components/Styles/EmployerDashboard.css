@@ -1,0 +1,132 @@
+
+.dashboard-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+    position: relative; 
+    overflow-x: hidden; 
+}
+
+
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6300B3;
+    padding: 10px;
+    color: white;
+}
+
+.top-navbar-logo img {
+    height: 50px;
+}
+
+.top-navbar-time {
+    color: white;
+    font-size: 20px;
+}
+
+.top-navbar-profile {
+    display: flex;
+    align-items: center;
+    position: relative; 
+}
+
+.profile-icon {
+    font-size: 30px;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.logout-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #555;
+}
+
+/* Secondary Navbar */
+.secondary-navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.secondary-navbar button {
+    background-color: #6300B3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.secondary-navbar button:hover {
+    background-color: #333;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center; 
+    margin-top: 20px;
+    position: relative; 
+}
+
+.job-image {
+    margin-right: 20px;
+    max-width: 25%; 
+    height: auto; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.details-box {
+    position: absolute; 
+    top: 20%; 
+    right: 5%;
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    width: 250px;
+}
+
+
+@media (max-width: 768px) {
+    .top-navbar, .secondary-navbar {
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+
+    .logout-button, .secondary-navbar button {
+        width: 100%;
+        margin-bottom: 10px; 
+    }
+
+    .image-container {
+        flex-direction: column;
+        align-items: center; 
+        margin-top: 10px; 
+    }
+
+    .job-image {
+        max-width: 80%; 
+        margin-bottom: 10px; 
+    }
+
+    .details-box {
+        width: 90%; 
+        margin-left: 0; 
+        margin-top: 10px; 
+    }
+}

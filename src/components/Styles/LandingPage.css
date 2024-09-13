@@ -1,0 +1,232 @@
+.landing-navbar {
+  background-color: #6300B3;
+  padding: 10px 20px; 
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.navbar-brand {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.register-button {
+  background-color: #FFFFFF; 
+  color: #6300B3; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-decoration: none;
+  margin-right: 40px;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-top: 0.5rem;
+  min-width: 160px;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+
+.landing-navbar .navbar-brand {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+  .custom-button {
+    background-color: #6300B3; 
+    color: #FFFFFF; 
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem; 
+  }
+  
+  .hero-section {
+    display: flex;
+    align-items: center; 
+    padding: 20px; 
+    background-color: #f4f4f4;
+    height: calc(100vh - 60px); 
+    box-sizing: border-box;
+    overflow: hidden; 
+  }
+  
+  .hero-text {
+    flex: 1;
+    max-width: 50%; 
+    padding-right: 20px; 
+    text-align: left; 
+  }
+  
+  .hero-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+  }
+  
+  .hero-image {
+    max-width: 200px; 
+    height: 500px; 
+  }
+  
+  .landing-about {
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .landing-about-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #6300B3;
+    text-align: center;
+  }
+  
+  .landing-about-description {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #303030; 
+    text-align: center;
+  }
+  
+  .landing-about-points {
+    list-style-type: none;
+    margin: 20px auto;
+    padding-left: 0;
+    max-width: 800px;
+  }
+  
+  .landing-about-points li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #555555;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .landing-jobs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 40px;
+  }
+  
+  .landing-jobs-title {
+    font-size: 2rem;
+    color: #6300B3;
+  }
+  
+  .landing-jobs-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 16px;
+    margin: 20px auto;
+  }
+  
+  .landing-job-posting {
+    padding: 10px 20px;
+    background-color: #EFE2F8;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 300px;
+  }
+  
+  .landing-job-posting h5 {
+    font-size: 1.3rem;
+    color: #333;
+  }
+  
+  .landing-footer {
+    background-color: #6300B3;
+    color: #FFFFFF;
+    padding: 5px 0;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column;
+      height: auto; 
+    }
+  
+    .hero-text {
+      max-width: 100%;
+      padding-right: 0;
+      text-align: center; 
+    }
+  
+    .hero-image-container {
+      margin-top: 20px; 
+    }
+  
+    .hero-image {
+      max-width: 100%;
+    }
+  
+    .landing-title {
+      font-size: 2rem;
+    }
+  
+    .landing-description {
+      font-size: 1.1rem;
+    }
+  
+    .landing-about-title {
+      font-size: 1.5rem;
+    }
+  
+    .landing-about-description {
+      font-size: 1rem;
+    }
+  }
+  
