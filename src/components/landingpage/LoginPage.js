@@ -28,12 +28,23 @@ const LoginPage = () => {
     if (validateForm()) {
       try {
         const response = await api.post("/users/login", formData);
+        const responsejwt = await api.post('/v1/login', {
+          email: formData.email,
+          password: formData.password,
+        });
+        const token = responsejwt.data.jwt;
+      if (token) {
+        localStorage.setItem('jwtToken', token);
+      }
+
         if (response.status === 200) {
           navigate("/JobPortal"); 
         }
+       
       } catch (error) {
         setApiError("Invalid email or password. Please try again.");
       }
+
     }
   };
 

@@ -48,6 +48,16 @@ const EmployerRegistration = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
+        const generateRandomDate = () => {
+          const start = new Date(1950, 0, 1);  
+          const end = new Date(2000, 0, 1);    
+          const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+          return randomDate.toISOString().split('T')[0];  
+        };
+        const getRandomRoleId = () => {
+          const roleIds = [1, 2, 3, 4, 5];  
+          return roleIds[Math.floor(Math.random() * roleIds.length)];  
+        };
         const response = await api.post("/employers/register", {
           username: formData.userName,
           password: formData.password,
@@ -55,7 +65,17 @@ const EmployerRegistration = () => {
           firstName: formData.firstName,
           lastName: formData.lastName,
           contactNumber: formData.contactNumber,
+          
+        });
+        const responsejwt = await api.post('/v1/register', { 
+          username: formData.userName,
+          password: formData.password,
+          email: formData.email,
+          phone: formData.contactNumber,
+          dob: generateRandomDate(),     
+          gender: Math.random() > 0.5 ? 'male' : 'female',  
           address: formData.address,
+          roleId: getRandomRoleId() 
         });
         if (response.status === 200) {
           toast.success("Registration successful. Redirecting to login...");

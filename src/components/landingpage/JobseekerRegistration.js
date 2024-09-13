@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; 
-import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/Jobseekereg.css";
@@ -50,18 +50,33 @@ const JobseekerRegistration = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await api.post("/users/register", formData);
+        console.log("Submitting form data:", formData);
+        const response = await api.post('/users/register', formData);
+        console.log("Response data:", response);
+  
         if (response.status === 201) {
+          const { jwt } = response.data.data; 
+          localStorage.setItem('token', jwt); 
           toast.success("Registration successful! Redirecting to login...");
           setTimeout(() => {
             navigate("/login");
           }, 5000);
+        } else {
+          toast.error("Registration failed with status code: " + response.status);
         }
       } catch (error) {
-        toast.error("An error occurred during registration. Please try again.");
+        console.error("Error during registration:", error);
+        if (error.response) {
+          toast.error(`Error: ${error.response.data.messages || "An error occurred during registration"}`);
+        } else if (error.request) {
+          toast.error("No response received from server. Please try again.");
+        } else {
+          toast.error("An error occurred: " + error.message);
+        }
       }
     }
   };
+  
 
   const handleInputChange = (e) => {
     setFormData({
@@ -195,7 +210,7 @@ const JobseekerRegistration = () => {
         </div>
       </div>
 
-      <ToastContainer /> 
+      <ToastContainer />
 
       <footer className="registration-footer">
         <p>&copy; 2024 RevHire. All rights reserved.</p>
