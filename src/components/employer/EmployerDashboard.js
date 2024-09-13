@@ -6,6 +6,8 @@ import jobImage from "../images/jobimage.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import api from "../../config/api";
+import JobForm from "./JobForm"; // Import JobForm
+import CategoryManager from "./CategoryManager"; // Import CategoryManager
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -23,78 +25,85 @@ const Clock = () => {
 
 const EmployerDashboard = () => {
   const navigate = useNavigate();
-  const [employerDetails, setEmployerDetails] = useState(null); 
-  const [showDetails, setShowDetails] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [employerDetails, setEmployerDetails] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [error, setError] = useState(null);
+  const [showJobForm, setShowJobForm] = useState(false);
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+
   const handleLogout = () => {
     navigate('/login');
   };
 
   const handleAddCategoryClick = () => {
-    console.log("Add Category button clicked");
+    setShowCategoryManager(true);
+    setShowJobForm(false);
+  };
+
+  const handleAddJobsClick = () => {
+    setShowJobForm(true);
+    setShowCategoryManager(false);
   };
 
   const fetchEmployerDetails = async () => {
     try {
       const response = await api.get('/employers/1');
-      setEmployerDetails(response.data); 
-      setError(null); 
+      setEmployerDetails(response.data);
+      setError(null);
     } catch (err) {
-      setError('Failed to fetch employer details.'); 
+      setError('Failed to fetch employer details.');
     }
   };
 
-
   const handleProfileClick = () => {
-    if (!showDetails) { 
-      fetchEmployerDetails(); 
+    if (!showDetails) {
+      fetchEmployerDetails();
     }
-    setShowDetails(!showDetails); 
+    setShowDetails(!showDetails);
   };
 
   return (
-    <div className="dashboard-container">
-      <nav className="top-navbar">
-        <div className="top-navbar-logo">
-          <img src={logo} alt="Logo" />
+    <div className="employerdashboard-container">
+      <nav className="employerdashboard-top-navbar">
+        <div className="employerdashboard-top-navbar-logo">
+          <img src={logo} alt="Job Portal Logo" />
         </div>
-        <div className="top-navbar-time">
+        <div className="employerdashboard-top-navbar-center">
           <Clock />
         </div>
-        <div className="top-navbar-profile">
-          <div className="profile-info">
-            <FontAwesomeIcon
-              icon={faUserCircle}
-              className="profile-icon"
-              onClick={handleProfileClick} 
-            />
-          </div>
-          <button className="logout-button" onClick={handleLogout}>Logout</button>
+        <div className="employerdashboard-top-navbar-right">
+          <FontAwesomeIcon icon={faUserCircle} className="employerdashboard-profile-icon" onClick={handleProfileClick} />
+          <button className="employerdashboard-logout-button" onClick={handleLogout}>Logout</button>
         </div>
       </nav>
-      <nav className="secondary-navbar">
-        <button>Add Jobs</button>
+
+      <nav className="employerdashboard-secondary-navbar">
+        <button onClick={handleAddJobsClick}>Add Jobs</button>
         <button onClick={handleAddCategoryClick}>Add Category</button>
         <button>My Jobs</button>
       </nav>
 
-      <div className="image-container">
-        <img src={jobImage} alt="Job" className="job-image" />
-        
-
-        {showDetails && employerDetails && (
-          <div className="details-box">
-            <h2>{employerDetails.employername}'s Profile</h2>
-            <p><strong>Name:</strong> {employerDetails.employername}</p>
-            <p><strong>Email:</strong> {employerDetails.email}</p>
-            <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
-            <p><strong>Address:</strong> {employerDetails.address}</p>
+      <div className="employerdashboard-main-content">
+        {showJobForm || showCategoryManager ? (
+          <div className="employerdashboard-form-container">
+            {showJobForm ? <JobForm /> : <CategoryManager />}
+          </div>
+        ) : (
+          <div className="employerdashboard-image-container">
+            <img src={jobImage} alt="Job" className="employerdashboard-job-image" />
+            {showDetails && employerDetails && (
+              <div className="employerdashboard-details-box">
+                <h2>{employerDetails.employerName}'s Profile</h2>
+                <p><strong>Name:</strong> {employerDetails.employerName}</p>
+                <p><strong>Email:</strong> {employerDetails.email}</p>
+                <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
+                <p><strong>Address:</strong> {employerDetails.address}</p>
+              </div>
+            )}
           </div>
         )}
+        {error && <p className="employerdashboard-error">{error}</p>}
       </div>
-
-
-      {error && <p className="error">{error}</p>}
     </div>
   );
 };
