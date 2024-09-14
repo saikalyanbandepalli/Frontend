@@ -9,6 +9,7 @@ import ResetPassword from "./components/landingpage/ResetPassword";
 import JobPortalDashBoard from "./components/JobSeeker/JobPortalDashBoard"
 import ResumeForm from "./components/JobSeeker/ResumeForm";
 import EmployerDashboard from "./components/employer/EmployerDashboard";
+import JobForm from "./components/employer/JobForm";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ResumeForm" element={<ResumeForm/>} />
         <Route path="/EmployerDashboard" element={<EmployerDashboard/>} />
+        <Route path="/JobForm" element={<JobForm/>} />
       </Routes>
     </Router>
   );
