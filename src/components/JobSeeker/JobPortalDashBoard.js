@@ -10,10 +10,13 @@ import com6 from "../images/com6_valid.jpg";
 import com7 from "../images/com7_valid.jpg";
 import com8 from "../images/com8_valid.jpg";
 import api1 from "../../config/api1";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const JobPortalDashBoard = () => {
   const [categoryInput, setCategoryInput] = useState("");
+  const [companyInput, setCompanyInput] = useState("");
   const [jobTypeInput, setJobTypeInput] = useState("");
   const [salaryRangeInput, setSalaryRangeInput] = useState("");
   const [jobs, setJobs] = useState([]);
@@ -21,18 +24,41 @@ const JobPortalDashBoard = () => {
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [showJobDetails, setShowJobDetails] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-  const location = useLocation();
-  const { userDetails } = location.state || {}; // Retrieve userDetails from the passed location state
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  const [showAppliedJobs, setShowAppliedJobs] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const { userId } = useParams();
+  const navigate = useNavigate();
 
   const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
 
-  // Randomly select a company logo
   const getRandomLogo = () => {
     const randomIndex = Math.floor(Math.random() * companyLogos.length);
     return companyLogos[randomIndex];
   };
 
-  // Fetch jobs when the component is mounted
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
+  const handleProfileClick = async () => {
+    if (!showDetails) {
+      try {
+        const response = await api1.get(`/appliedJobs/user/${userId}`);
+        if (response.data.length > 0) {
+          const user = response.data[0]?.user;
+          setUserDetails(user);
+        } else {
+          console.warn("No user details found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    }
+    setShowDetails(!showDetails);
+  };
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -43,10 +69,21 @@ const JobPortalDashBoard = () => {
         console.error("Error fetching jobs:", error);
       }
     };
-    fetchJobs();
-  }, []);
 
-  // Filter jobs based on user input
+    const fetchAppliedJobs = async () => {
+      try {
+        const response = await api1.get(`/appliedJobs/user/${userId}`);
+        const appliedJobData = response.data.map((job) => job.job);
+        setAppliedJobs(appliedJobData);
+      } catch (error) {
+        console.error("Error fetching applied jobs:", error);
+      }
+    };
+
+    fetchJobs();
+    fetchAppliedJobs();
+  }, [userId]);
+
   const filterJobs = () => {
     let filtered = jobs;
 
@@ -55,6 +92,11 @@ const JobPortalDashBoard = () => {
         job.category.categoryName
           .toLowerCase()
           .includes(categoryInput.toLowerCase())
+      );
+    }
+    if (companyInput) {
+      filtered = filtered.filter((job) =>
+        job.companyName.toLowerCase().includes(companyInput.toLowerCase())
       );
     }
     if (jobTypeInput) {
@@ -73,29 +115,34 @@ const JobPortalDashBoard = () => {
     setShowAllJobs(false);
   };
 
-  // Show all jobs without filtering
   const showAllJobsHandler = () => {
     setFilteredJobs(jobs);
     setShowAllJobs(true);
+    setShowAppliedJobs(false);
   };
 
-  // Show detailed information for a selected job
+  const showAppliedJobsHandler = () => {
+    setFilteredJobs(appliedJobs);
+    setShowAppliedJobs(true);
+    setShowAllJobs(false);
+  };
+
   const handleKnowMoreClick = (job) => {
     setSelectedJob(job);
     setShowJobDetails(true);
   };
 
-  // Apply for a job
   const handleApplyClick = async () => {
-    if (selectedJob && userDetails) {
+    if (selectedJob) {
       try {
         await api1.post("/appliedJobs/apply", null, {
           params: {
             jobId: selectedJob.jobId,
-            jobSeekerId: userDetails.id,
+            jobSeekerId: userId,
           },
         });
         alert("Application submitted successfully!");
+        setAppliedJobs((prevAppliedJobs) => [...prevAppliedJobs, selectedJob]);
       } catch (error) {
         const message = error.response?.data || "An unexpected error occurred.";
         alert(`Application failed: ${message}`);
@@ -103,12 +150,18 @@ const JobPortalDashBoard = () => {
     }
   };
 
-  // Close job details modal
+  const isJobApplied = (jobId) =>
+    appliedJobs.some((job) => job.jobId === jobId);
+
   const handleCloseJobDetails = () => {
     setShowJobDetails(false);
   };
 
-  const displayedJobs = showAllJobs ? filteredJobs : filteredJobs.slice(0, 8); // Limit job cards to 8 if not showing all jobs
+  const displayedJobs = showAppliedJobs
+    ? appliedJobs
+    : showAllJobs
+    ? filteredJobs
+    : filteredJobs.slice(0, 8);
 
   return (
     <div className="job-portal-container">
@@ -118,7 +171,7 @@ const JobPortalDashBoard = () => {
         </div>
         <ul className="navbar-links">
           <li>
-            <a href="/jobportal">Home</a>
+            <a href={`/JobPortal/${userId}`}>Home</a>
           </li>
           <li>
             <a onClick={showAllJobsHandler} className="all-jobs-button">
@@ -126,17 +179,32 @@ const JobPortalDashBoard = () => {
             </a>
           </li>
           <li>
-            <a href="#">My Jobs</a>
+            <a onClick={showAppliedJobsHandler}>My Jobs</a>
           </li>
           <li>
-            <a href="#profile">Profile</a>
+            <a onClick={() => navigate(`/ResumeForm`)}>Resume</a>
           </li>
         </ul>
+        <div className="top-navbar-profile1">
+          <div className="profile-info">
+            <FontAwesomeIcon
+              icon={faUserCircle}
+              className="profile-icon"
+              onClick={handleProfileClick}
+            />
+            <button
+              className="employerdashboard-logout-button1"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </nav>
 
       <header className="job-portal-header">
         <h1>Find Your Dream Job Now!</h1>
-        <p>Select a role and we'll show you relevant jobs for it!</p>
+        <p>Select a Job category and we'll show you relevant jobs for it!</p>
       </header>
 
       <div className="job-search-section">
@@ -151,19 +219,38 @@ const JobPortalDashBoard = () => {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Select Job Type"
+            placeholder="Select Company name"
+            value={companyInput}
+            onChange={(e) => setCompanyInput(e.target.value)}
+          />
+        </div>
+
+        <div className="input-group1">
+          <select
             value={jobTypeInput}
             onChange={(e) => setJobTypeInput(e.target.value)}
-          />
+          >
+            <option value="">Select Job Type</option>
+            <option value="FULL_TIME">Full Time</option>
+            <option value="PART_TIME">Part Time</option>
+            <option value="CONTRACT">Contract</option>
+          </select>
         </div>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Select Salary Range"
+
+        <div className="input-group1">
+          <select
             value={salaryRangeInput}
             onChange={(e) => setSalaryRangeInput(e.target.value)}
-          />
+          >
+            <option value="">Select Salary Range</option>
+            <option value="ONE_TO_THREE_LPA">1-3 LPA</option>
+            <option value="THREE_TO_FIVE_LPA">3-5 LPA</option>
+            <option value="FIVE_TO_SEVEN_LPA">5-7 LPA</option>
+            <option value="SEVEN_TO_TEN_LPA">7-10 LPA</option>
+            <option value="TWENTY_FIVE_PLUS_LPA">25+ LPA</option>
+          </select>
         </div>
+
         <button onClick={filterJobs}>Search</button>
       </div>
 
@@ -180,12 +267,22 @@ const JobPortalDashBoard = () => {
             <p>Job Type: {job.jobType}</p>
             <p>Salary Range: {job.salaryRange}</p>
             <p>Experience: {job.experienceRequired}</p>
-            <button
-              onClick={() => handleKnowMoreClick(job)}
-              className="knowmore"
-            >
-              Know More
-            </button>
+
+            {isJobApplied(job.jobId) ? (
+              <button
+                className="apply-button"
+                onClick={() => handleKnowMoreClick(job)}
+              >
+                Applied
+              </button>
+            ) : (
+              <button
+                onClick={() => handleKnowMoreClick(job)}
+                className="knowmore"
+              >
+                Know More
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -219,12 +316,39 @@ const JobPortalDashBoard = () => {
             <strong>End Date:</strong>{" "}
             {new Date(selectedJob.endDate).toLocaleDateString()}
           </p>
-          <button onClick={handleApplyClick} className="apply-button">
-            Apply
-          </button>
+          {!isJobApplied(selectedJob.jobId) && (
+            <button className="apply-button" onClick={handleApplyClick}>
+              Apply Now
+            </button>
+          )}
         </div>
       )}
-
+      {showDetails && userDetails && (
+        <div className="profile-details-card">
+          <button onClick={handleProfileClick} className="close-button11">
+            Close
+          </button>
+          <h2>User Profile</h2>
+          <p>
+            <strong>Name:</strong> {userDetails.userName}
+          </p>
+          <p>
+            <strong>Email:</strong> {userDetails.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {userDetails.contactNumber}
+          </p>
+          <p>
+            <strong>Address:</strong> {userDetails.address}
+          </p>
+          <p>
+            <strong>Date of Joining:</strong> {userDetails.yearOfPassing}
+          </p>
+          <p>
+            <strong>Experience:</strong> {userDetails.experience}
+          </p>
+        </div>
+      )}
       <footer className="job-portal-footer">
         <p>&copy; 2024 Online Job Portal. All rights reserved.</p>
       </footer>

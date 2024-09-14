@@ -50,10 +50,11 @@ const LoginPage = () => {
   
           if (formData.userType === "jobseeker") {
             const role = userData.role;
+                      const userId = userData.userId;
             if (role === "JOB_SEEKER") {
               // Dispatch action to save jobseeker info in Redux
               dispatch(setJobseekerId(userData.userId));  
-              navigate("/JobPortal", { state: { user: userData } }); 
+            navigate(`/JobPortal/${userId}`);
             } else {
               setApiError("Unexpected user role. Please try again.");
             }
