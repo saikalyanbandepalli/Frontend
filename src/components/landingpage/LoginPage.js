@@ -41,9 +41,6 @@ const LoginPage = () => {
           password: formData.password,
         });
   
-        console.log("Response status:", response.status);
-        console.log("Response data:", response.data);
-  
         if (response.status === 200) {
           const userData = response.data.data; 
   
@@ -61,7 +58,6 @@ const LoginPage = () => {
           setApiError("Unexpected response status: " + response.status);
         }
       } catch (error) {
-        console.error("Login error:", error);
         setApiError("Invalid email or password. Please try again.");
       }
     }
@@ -76,6 +72,11 @@ const LoginPage = () => {
 
   const handleSignUpClick = () => {
     navigate("/"); 
+  };
+
+  
+  const handleForgotPageClick = () => {
+    navigate("/Forgotpassword"); 
   };
 
   return (
@@ -151,6 +152,8 @@ const LoginPage = () => {
               Log In
             </button>
           </form>
+
+          <p className="forgot-password-text" onClick={handleForgotPageClick}>Forgot your password?</p> {/* Updated text */}
         </div>
       </div>
 

@@ -4,15 +4,21 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
-import "../Styles/ForgotPassword.css"
+import "../Styles/ForgotPassword.css";
 import api from "../../config/api";
 
 const ForgotPassword = () => {
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ email: "", otp: "", newPassword: "" });
+  const [userType, setUserType] = useState("job_seeker"); // Default userType is 'employer'
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
+
+  // Function to get API URL based on userType
+  const getApiUrl = (path) => {
+    return userType === "job_seeker" ? `/users${path}` : `/employers${path}`;
+  };
 
   const validateEmail = () => {
     const newErrors = {};
@@ -45,7 +51,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     if (validateEmail()) {
       try {
-        await api.post(`/users/forgot-password`, null, { params: { email: formData.email } });
+        await api.post(getApiUrl('/forgot-password'), null, { params: { email: formData.email } });
         setStep(2);
         toast.success("OTP sent to your email!");
       } catch (error) {
@@ -69,7 +75,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     if (validateNewPassword()) {
       try {
-        await api.post(`/users/reset-password-otp`, null, {
+        await api.post(getApiUrl('/reset-password-otp'), null, {
           params: {
             email: formData.email,
             otp: formData.otp,
@@ -92,6 +98,10 @@ const ForgotPassword = () => {
     });
   };
 
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value); // Update the selected user type
+  };
+
   return (
     <div className="forgot-password-container">
       <ToastContainer /> {/* ToastContainer for displaying toasts */}
@@ -111,7 +121,22 @@ const ForgotPassword = () => {
         </div>
         <div className="forgot-password-form-container">
           <img src={heroImage} alt="Hero" className="img-fluid forgot-password-hero-image" />
-          
+
+          {/* User Type Dropdown */}
+          <div className="form-group">
+            <label htmlFor="userType">Select User Type</label>
+            <select
+              name="userType"
+              id="userType"
+              className="form-control"
+              value={userType}
+              onChange={handleUserTypeChange}
+            >
+              <option value="employer">Employer</option>
+              <option value="job_seeker">Job Seeker</option>              
+            </select>
+          </div>
+
           {step === 1 && (
             <form className="forgot-password-form" onSubmit={handleRequestOtp}>
               <div className="form-group">
