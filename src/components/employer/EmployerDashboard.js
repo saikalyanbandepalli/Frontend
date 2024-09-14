@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../Styles/EmployerDashboard.css";
 import logo from "../images/revhire_logo.png";
-import jobImage from "../images/jobimage.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import api from "../../config/api";
 import JobForm from "./JobForm";
 import CategoryManager from "./CategoryManager";
+import JobList from "./JobList";
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -31,9 +31,9 @@ const EmployerDashboard = () => {
   const [error, setError] = useState(null);
   const [showJobForm, setShowJobForm] = useState(false);
   const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [showJobList, setShowJobList] = useState(false);
   const [showHome, setShowHome] = useState(true);
 
-    // Log user data when component mounts
   useEffect(() => {
     if (employerDetails) {
       console.log("Received user data:", employerDetails);
@@ -50,17 +50,28 @@ const EmployerDashboard = () => {
     setShowHome(true);
     setShowJobForm(false);
     setShowCategoryManager(false);
+    setShowJobList(false);
   };
 
   const handleAddCategoryClick = () => {
     setShowCategoryManager(true);
     setShowJobForm(false);
     setShowHome(false);
+    setShowJobList(false);
     setShowDetails(false);
   };
 
   const handleAddJobsClick = () => {
     setShowJobForm(true);
+    setShowCategoryManager(false);
+    setShowHome(false);
+    setShowJobList(false);
+    setShowDetails(false);
+  };
+
+  const handleMyJobsClick = () => {
+    setShowJobList(true);
+    setShowJobForm(false);
     setShowCategoryManager(false);
     setShowHome(false);
     setShowDetails(false);
@@ -108,7 +119,7 @@ const EmployerDashboard = () => {
         <button onClick={handleHomeClick}>Home</button>
         <button onClick={handleAddJobsClick}>Add Jobs</button>
         <button onClick={handleAddCategoryClick}>Add Category</button>
-        <button>My Jobs</button>
+        <button onClick={handleMyJobsClick}>My Jobs</button>
       </nav>
 
       <div className="employerdashboard-main-content">
@@ -122,9 +133,9 @@ const EmployerDashboard = () => {
           </div>
         )}
 
-        {(showJobForm || showCategoryManager) && (
+        {(showJobForm || showCategoryManager || showJobList) && (
           <div className="employerdashboard-form-container">
-            {showJobForm ? <JobForm /> : <CategoryManager />}
+            {showJobForm ? <JobForm /> : showCategoryManager ? <CategoryManager /> : <JobList />}
           </div>
         )}
 

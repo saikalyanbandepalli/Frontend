@@ -1,0 +1,128 @@
+/* JobList.css */
+
+/* Container for the job list */
+#job-list-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    overflow-x: auto;
+  }
+  
+  /* Title of the job list */
+  .job-list-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Job table styles */
+  #job-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  #job-table th,
+  #job-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #job-table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Pagination controls */
+  #pagination-controls {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .page-btn {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .page-btn.active {
+    background-color: #0056b3;
+  }
+  
+  /* Applicants modal styles */
+  #applicants-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  #applicants-modal h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .close-modal-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    float: right;
+  }
+  
+  .close-modal-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Applicants table styles */
+  #applicants-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  #applicants-table th,
+  #applicants-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  #applicants-table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  #applicants-table button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #applicants-table button:hover {
+    background-color: #0056b3;
+  }
+  
+  #applicants-table select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
