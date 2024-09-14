@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../Styles/EmployerDashboard.css";
 import logo from "../images/revhire_logo.png";
 import jobImage from "../images/jobimage.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import api from "../../config/api";
-import JobForm from "./JobForm"; // Import JobForm
-import CategoryManager from "./CategoryManager"; // Import CategoryManager
+import JobForm from "./JobForm";
+import CategoryManager from "./CategoryManager";
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -24,30 +24,51 @@ const Clock = () => {
 };
 
 const EmployerDashboard = () => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const [employerDetails, setEmployerDetails] = useState(null);
+  const [employerDetails, setEmployerDetails] = useState(location.state?.user || null);
   const [showDetails, setShowDetails] = useState(false);
   const [error, setError] = useState(null);
   const [showJobForm, setShowJobForm] = useState(false);
   const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [showHome, setShowHome] = useState(true);
+
+    // Log user data when component mounts
+  useEffect(() => {
+    if (employerDetails) {
+      console.log("Received user data:", employerDetails);
+    } else {
+      console.log("No user data received.");
+    }
+  }, [employerDetails]);
 
   const handleLogout = () => {
     navigate('/login');
   };
 
+  const handleHomeClick = () => {
+    setShowHome(true);
+    setShowJobForm(false);
+    setShowCategoryManager(false);
+  };
+
   const handleAddCategoryClick = () => {
     setShowCategoryManager(true);
     setShowJobForm(false);
+    setShowHome(false);
+    setShowDetails(false);
   };
 
   const handleAddJobsClick = () => {
     setShowJobForm(true);
     setShowCategoryManager(false);
+    setShowHome(false);
+    setShowDetails(false);
   };
 
   const fetchEmployerDetails = async () => {
     try {
-      const response = await api.get('/employers/1');
+      const response = await api.get(`/employers/${employerDetails.empolyerId}`);
       setEmployerDetails(response.data);
       setError(null);
     } catch (err) {
@@ -61,6 +82,12 @@ const EmployerDashboard = () => {
     }
     setShowDetails(!showDetails);
   };
+
+  useEffect(() => {
+    if (!employerDetails) {
+      fetchEmployerDetails();
+    }
+  }, [employerDetails]);
 
   return (
     <div className="employerdashboard-container">
@@ -78,30 +105,39 @@ const EmployerDashboard = () => {
       </nav>
 
       <nav className="employerdashboard-secondary-navbar">
+        <button onClick={handleHomeClick}>Home</button>
         <button onClick={handleAddJobsClick}>Add Jobs</button>
         <button onClick={handleAddCategoryClick}>Add Category</button>
         <button>My Jobs</button>
       </nav>
 
       <div className="employerdashboard-main-content">
-        {showJobForm || showCategoryManager ? (
+        {showHome && employerDetails && (
+          <div className="employerdashboard-home-container">
+            <h2>Welcome, {employerDetails.employerName}!</h2>
+            <p>Here you can manage your job postings, categories, and much more.</p>
+            <p><strong>Email:</strong> {employerDetails.email}</p>
+            <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
+            <p><strong>Address:</strong> {employerDetails.address}</p>
+          </div>
+        )}
+
+        {(showJobForm || showCategoryManager) && (
           <div className="employerdashboard-form-container">
             {showJobForm ? <JobForm /> : <CategoryManager />}
           </div>
-        ) : (
-          <div className="employerdashboard-image-container">
-            <img src={jobImage} alt="Job" className="employerdashboard-job-image" />
-            {showDetails && employerDetails && (
-              <div className="employerdashboard-details-box">
-                <h2>{employerDetails.employerName}'s Profile</h2>
-                <p><strong>Name:</strong> {employerDetails.employerName}</p>
-                <p><strong>Email:</strong> {employerDetails.email}</p>
-                <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
-                <p><strong>Address:</strong> {employerDetails.address}</p>
-              </div>
-            )}
+        )}
+
+        {showHome && showDetails && employerDetails && (
+          <div className="employerdashboard-details-box">
+            <h2>{employerDetails.employerName}'s Profile</h2>
+            <p><strong>Name:</strong> {employerDetails.employerName}</p>
+            <p><strong>Email:</strong> {employerDetails.email}</p>
+            <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
+            <p><strong>Address:</strong> {employerDetails.address}</p>
           </div>
         )}
+
         {error && <p className="employerdashboard-error">{error}</p>}
       </div>
     </div>

@@ -1,9 +1,14 @@
+// src/components/JobForm.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../config/api'; // Import the configured axios instance
 import '../Styles/JobForm.css'; 
-import api from "../../config/api";
+import { useSelector } from 'react-redux';
 
 const JobForm = () => {
+
+  const employerId = useSelector((state) => state.employer.employerId); // Get employerId from Redux store
+  console.log(employerId);
+
   const [categories, setCategories] = useState([]);
   const [jobTitle, setJobTitle] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -53,7 +58,7 @@ const JobForm = () => {
       salaryRange,
       experienceRequired,
       location,
-      employer: { empolyerId: 1 },  // Temporarily assign employee ID 1
+      employer: { empolyerId: employerId },  // Ensure this matches your API expectation
       postDate,
       endDate
     };

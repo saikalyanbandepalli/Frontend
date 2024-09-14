@@ -32,7 +32,7 @@ const CategoryManager = () => {
 
     try {
       if (editingId) {
-        await api.put('/categories/update/${editingId}, newCategory');
+        await api.put(`/categories/update/${editingId}`, newCategory);
         alert('Category updated successfully!');
         setEditingId(null);
       } else {
@@ -52,7 +52,7 @@ const CategoryManager = () => {
     const confirmed = window.confirm('Are you sure you want to delete this category?');
     if (confirmed) {
       try {
-        await api.delete('/categories/${id}');
+        await api.delete(`/categories/${id}`);
         alert('Category deleted successfully!');
         fetchCategories();
       } catch (error) {

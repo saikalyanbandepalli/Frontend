@@ -15,11 +15,6 @@
     color: white;
 }
 
-.employerdashboard-top-navbar-logo {
-    display: flex;
-    align-items: center;
-}
-
 .employerdashboard-top-navbar-logo img {
     height: 50px;
 }
@@ -78,6 +73,15 @@
     background-color: #333;
 }
 
+/* Home Content */
+.employerdashboard-home-content {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Main Content */
 .employerdashboard-image-container {
     display: flex;
     justify-content: center;
