@@ -29,7 +29,8 @@
 /* Input fields and textareas */
 .resume-form input[type="text"],
 .resume-form input[type="date"],
-.resume-form textarea {
+.resume-form textarea,
+.resume-form input[type="file"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -136,16 +137,13 @@
   margin-top: 20px; /* Adds space above the submit buttons */
 }
 
-
 /* Error messages */
 .error-message, .api-error-message {
   color: red;
   font-size: 0.875rem;
   margin-top: 5px;
 }
-.resume-form .button-spacing {
-  margin-bottom: 20px; /* Adjust the spacing as needed */
-}
+
 /* Resume view */
 .resume-view {
   display: flex;
