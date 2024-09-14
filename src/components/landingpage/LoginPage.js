@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";  // Import useDispatch
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/LoginPage.css";
 import api from "../../config/api"; 
+import { setEmployerId } from "../../redux/employerSlice";  // Import employer actions
+import { setJobseekerId } from "../../redux/jobseekerSlice";  // Import jobseeker actions
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +17,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();  // Initialize useDispatch
 
   const validateForm = () => {
     const newErrors = {};
@@ -47,11 +51,16 @@ const LoginPage = () => {
           if (formData.userType === "jobseeker") {
             const role = userData.role;
             if (role === "JOB_SEEKER") {
+              // Dispatch action to save jobseeker info in Redux
+              dispatch(setJobseekerId(userData.userId));  
               navigate("/JobPortal", { state: { user: userData } }); 
             } else {
               setApiError("Unexpected user role. Please try again.");
             }
           } else {
+            // Dispatch action to save employer info in Redux
+            dispatch(setEmployerId(userData.empolyerId)); 
+            console.log(userData.empolyerId);
             navigate("/EmployerDashboard", { state: { user: userData } });
           }
         } else {
@@ -61,7 +70,7 @@ const LoginPage = () => {
         setApiError("Invalid email or password. Please try again.");
       }
     }
-  };  
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -74,7 +83,6 @@ const LoginPage = () => {
     navigate("/"); 
   };
 
-  
   const handleForgotPageClick = () => {
     navigate("/Forgotpassword"); 
   };
@@ -153,7 +161,7 @@ const LoginPage = () => {
             </button>
           </form>
 
-          <p className="forgot-password-text" onClick={handleForgotPageClick}>Forgot your password?</p> {/* Updated text */}
+          <p className="forgot-password-text" onClick={handleForgotPageClick}>Forgot your password?</p>
         </div>
       </div>
 
