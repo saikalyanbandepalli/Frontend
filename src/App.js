@@ -6,7 +6,7 @@ import EmployerRegistration from "./components/landingpage/EmployerRegistration"
 import LoginPage from "./components/landingpage/LoginPage";
 import ForgotPassword from "./components/landingpage/ForgotPassword";
 import ResetPassword from "./components/landingpage/ResetPassword";
-import JobPortalDashBoard from "./components/JobSeeker/JobPortalDashBoard"
+import JobPortalDashBoard from "./components/JobSeeker/JobPortalDashBoard";
 import ResumeForm from "./components/JobSeeker/ResumeForm";
 import EmployerDashboard from "./components/employer/EmployerDashboard";
 import JobForm from "./components/employer/JobForm";
@@ -17,14 +17,23 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/JobPortal/:userId" element={<JobPortalDashBoard />} />
-        <Route path="/Jobseekeregisteration" element={<JobseekerRegistration />} />
-        <Route path="/Employerregistration" element={<EmployerRegistration />} />
+        <Route
+          path="/JobPortal/jobseeker/:userId"
+          element={<JobPortalDashBoard />}
+        />
+        <Route
+          path="/Jobseekeregisteration"
+          element={<JobseekerRegistration />}
+        />
+        <Route
+          path="/Employerregistration"
+          element={<EmployerRegistration />}
+        />
         <Route path="/Forgotpassword" element={<ForgotPassword />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />
-        <Route path="/ResumeForm" element={<ResumeForm/>} />
-        <Route path="/EmployerDashboard" element={<EmployerDashboard/>} />
-        <Route path="/JobForm" element={<JobForm/>} />
+        <Route path="/ResumeForm" element={<ResumeForm />} />
+        <Route path="/EmployerDashboard" element={<EmployerDashboard />} />
+        <Route path="/JobForm" element={<JobForm />} />
       </Routes>
     </Router>
   );
