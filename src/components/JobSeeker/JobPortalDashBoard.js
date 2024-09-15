@@ -30,8 +30,42 @@ const JobPortalDashBoard = () => {
   const [userDetails, setUserDetails] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
+  const [categorySuggestions, setCategorySuggestions] = useState([]);
+  const [companySuggestions, setCompanySuggestions] = useState([]);
 
   const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setCategoryInput(value);
+
+    if (value.length > 0) {
+      const filteredCategories = jobs
+        .map((job) => job.jobTitle)
+        .filter((category) =>
+          category.toLowerCase().includes(value.toLowerCase())
+        );
+      setCategorySuggestions([...new Set(filteredCategories)]);
+    } else {
+      setCategorySuggestions([]);
+    }
+  };
+
+  const handleCompanyChange = (e) => {
+    const value = e.target.value;
+    setCompanyInput(value);
+
+    if (value.length > 0) {
+      const filteredCompanies = jobs
+        .map((job) => job.companyName)
+        .filter((company) =>
+          company.toLowerCase().includes(value.toLowerCase())
+        );
+      setCompanySuggestions([...new Set(filteredCompanies)]);
+    } else {
+      setCompanySuggestions([]);
+    }
+  };
 
   const getRandomLogo = () => {
     const randomIndex = Math.floor(Math.random() * companyLogos.length);
@@ -89,9 +123,7 @@ const JobPortalDashBoard = () => {
 
     if (categoryInput) {
       filtered = filtered.filter((job) =>
-        job.category.categoryName
-          .toLowerCase()
-          .includes(categoryInput.toLowerCase())
+        job.jobTitle.toLowerCase().includes(categoryInput.toLowerCase())
       );
     }
     if (companyInput) {
@@ -163,6 +195,16 @@ const JobPortalDashBoard = () => {
     ? filteredJobs
     : filteredJobs.slice(0, 8);
 
+  const handleSuggestionClick = (suggestion) => {
+    setCategoryInput(suggestion);
+    setCategorySuggestions([]);
+  };
+
+  const handleCompanySuggestionClick = (suggestion) => {
+    setCompanyInput(suggestion);
+    setCompanySuggestions([]);
+  };
+
   return (
     <div className="job-portal-container">
       <nav className="navbar">
@@ -171,7 +213,7 @@ const JobPortalDashBoard = () => {
         </div>
         <ul className="navbar-links">
           <li>
-            <a href={`/JobPortal/${userId}`}>Home</a>
+            <a href={`/JobPortal/jobseeker/${userId}`}>Home</a>
           </li>
           <li>
             <a onClick={showAllJobsHandler} className="all-jobs-button">
@@ -211,18 +253,44 @@ const JobPortalDashBoard = () => {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Select Job Category"
+            placeholder="Select Job Title"
             value={categoryInput}
-            onChange={(e) => setCategoryInput(e.target.value)}
+            onChange={handleCategoryChange}
           />
+          {categorySuggestions.length > 0 && (
+            <ul className="suggestion-list">
+              {categorySuggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="suggestion-item"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="input-group">
           <input
             type="text"
-            placeholder="Select Company name"
+            placeholder="Select Company Name"
             value={companyInput}
-            onChange={(e) => setCompanyInput(e.target.value)}
+            onChange={handleCompanyChange}
           />
+          {companySuggestions.length > 0 && (
+            <ul className="suggestion-list">
+              {companySuggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleCompanySuggestionClick(suggestion)}
+                  className="suggestion-item"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="input-group1">

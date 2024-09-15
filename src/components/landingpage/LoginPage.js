@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";  // Import useDispatch
+import { useDispatch } from "react-redux"; // Import useDispatch
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/LoginPage.css";
-import api from "../../config/api"; 
-import { setEmployerId } from "../../redux/employerSlice";  // Import employer actions
-import { setJobseekerId } from "../../redux/jobseekerSlice";  // Import jobseeker actions
+import api from "../../config/api";
+import { setEmployerId } from "../../redux/employerSlice"; // Import employer actions
+import { setJobseekerId } from "../../redux/jobseekerSlice"; // Import jobseeker actions
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    userType: "jobseeker", 
+    userType: "jobseeker",
   });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();  // Initialize useDispatch
+  const dispatch = useDispatch(); // Initialize useDispatch
 
   const validateForm = () => {
     const newErrors = {};
@@ -38,29 +38,29 @@ const LoginPage = () => {
         const loginEndpoint =
           formData.userType === "jobseeker"
             ? "/users/login"
-            : "/employers/login"; 
-  
+            : "/employers/login";
+
         const response = await api.post(loginEndpoint, {
           email: formData.email,
           password: formData.password,
         });
-  
+
         if (response.status === 200) {
-          const userData = response.data.data; 
-  
+          const userData = response.data.data;
+
           if (formData.userType === "jobseeker") {
             const role = userData.role;
             const userId = userData.userId;
             if (role === "JOB_SEEKER") {
               // Dispatch action to save jobseeker info in Redux
-              dispatch(setJobseekerId(userData.userId));  
-              navigate(`/JobPortal/${userId}`);
+              dispatch(setJobseekerId(userData.userId));
+              navigate(`/JobPortal/jobseeker/${userId}`);
             } else {
               setApiError("Unexpected user role. Please try again.");
             }
           } else {
             // Dispatch action to save employer info in Redux
-            dispatch(setEmployerId(userData.empolyerId)); 
+            dispatch(setEmployerId(userData.empolyerId));
             console.log(userData.empolyerId);
             navigate("/EmployerDashboard", { state: { user: userData } });
           }
@@ -81,11 +81,11 @@ const LoginPage = () => {
   };
 
   const handleSignUpClick = () => {
-    navigate("/"); 
+    navigate("/");
   };
 
   const handleForgotPageClick = () => {
-    navigate("/Forgotpassword"); 
+    navigate("/Forgotpassword");
   };
 
   return (
@@ -111,7 +111,11 @@ const LoginPage = () => {
           </p>
         </div>
         <div className="login-form-container">
-          <img src={heroImage} alt="Hero" className="img-fluid login-hero-image" />
+          <img
+            src={heroImage}
+            alt="Hero"
+            className="img-fluid login-hero-image"
+          />
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="userType">User Type</label>
@@ -152,7 +156,9 @@ const LoginPage = () => {
                 onChange={handleInputChange}
                 required
               />
-              {errors.password && <p className="error-message">{errors.password}</p>}
+              {errors.password && (
+                <p className="error-message">{errors.password}</p>
+              )}
             </div>
 
             {apiError && <p className="api-error-message">{apiError}</p>}
@@ -162,7 +168,9 @@ const LoginPage = () => {
             </button>
           </form>
 
-          <p className="forgot-password-text" onClick={handleForgotPageClick}>Forgot your password?</p>
+          <p className="forgot-password-text" onClick={handleForgotPageClick}>
+            Forgot your password?
+          </p>
         </div>
       </div>
 
