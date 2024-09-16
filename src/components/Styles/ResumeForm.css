@@ -1,7 +1,7 @@
 /* Container for the form */
 .resume-form {
-  max-width: 900px;
-  margin: 20px auto;
+  max-width: 900px; /* Maximum width for the form */
+  margin: 20px auto; /* Center the form horizontally */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -55,39 +55,6 @@
   transition: background-color 0.3s ease;
 }
 
-/* Space between buttons */
-.resume-form .create-resume-button {
-  margin-bottom: 15px; /* Adjust as needed */
-}
-
-/* Styling for dropdown */
-.resume-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.resume-dropdown-menu {
-  display: block;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ddd;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.resume-dropdown-menu button {
-  display: block;
-  width: 100%;
-  padding: 8px 16px;
-  border: none;
-  background-color: white;
-  cursor: pointer;
-}
-
-.resume-dropdown-menu button:hover {
-  background-color: #ddd;
-}
-
 /* Hover state for buttons */
 .resume-form button:hover {
   background-color: #4b0082;
@@ -129,13 +96,47 @@
   cursor: not-allowed;
 }
 
+/* Spacing for buttons */
 .button-spacing {
   margin-bottom: 20px; /* Adjust the spacing as needed */
 }
 
 .resume-form .submit-button {
   margin-top: 20px; /* Adds space above the submit buttons */
+  margin-left: 80%;
+  display: block;
 }
+/* ResumeForm.css */
+
+/* Ensure that the resume-header container uses flexbox to align items */
+.resume-header {
+  display: flex;
+  justify-content: flex-end; /* Aligns buttons to the right side */
+  padding: 10px;
+  background-color: #f8f9fa; /* Optional: Background color for visual separation */
+  border-bottom: 1px solid #ddd; /* Optional: Bottom border for visual separation */
+}
+
+.button-spacing {
+  margin-left: 10px; /* Add some space between buttons */
+  padding: 8px 16px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 4px;
+  background-color: #6300b3; /* Primary button color */
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.button-spacing:hover {
+  background-color: #6300b3; /* Darker shade for hover effect */
+}
+
+.button-spacing:focus {
+  outline: none; /* Remove default focus outline */
+}
+
 
 /* Error messages */
 .error-message,
@@ -190,6 +191,44 @@
   margin-bottom: 10px;
 }
 
+.resume-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.resume-dropdown button {
+  background-color: #9e9797; 
+  color: #6300B3; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-decoration: none;
+  margin: 10px; 
+  position: relative; 
+  top: 10px; 
+  left: 20px; 
+}
+.resume-dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+
+.resume-dropdown-menu button::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 20px; /* Adjust to position the line */
+  bottom: 0;
+  width: 23%; /* Adjust width to reduce line length */
+  border-bottom: 1px solid #ddd; /* Separator line */
+}
 /* Animation for fade-in effect */
 @keyframes fadeIn {
   from {
