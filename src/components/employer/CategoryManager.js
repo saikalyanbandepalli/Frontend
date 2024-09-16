@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import '../Styles/CategoryManager.css';
-import api from "../../config/api";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CategoryManager = () => {
   const [categories, setCategories] = useState([]);
@@ -19,6 +20,7 @@ const CategoryManager = () => {
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      toast.error('Failed to fetch categories.');
     }
   };
 
@@ -33,11 +35,11 @@ const CategoryManager = () => {
     try {
       if (editingId) {
         await api.put(`/categories/update/${editingId}`, newCategory);
-        alert('Category updated successfully!');
+        toast.success('Category updated successfully!');
         setEditingId(null);
       } else {
         await api.post('/categories/create', newCategory);
-        alert('Category created successfully!');
+        toast.success('Category created successfully!');
       }
 
       setCategoryName('');
@@ -45,6 +47,7 @@ const CategoryManager = () => {
       fetchCategories();
     } catch (error) {
       console.error('Error creating/updating category:', error);
+      toast.error('Failed to create/update category.');
     }
   };
 
@@ -53,10 +56,11 @@ const CategoryManager = () => {
     if (confirmed) {
       try {
         await api.delete(`/categories/${id}`);
-        alert('Category deleted successfully!');
+        toast.success('Category deleted successfully!');
         fetchCategories();
       } catch (error) {
         console.error('Error deleting category:', error);
+        toast.error('Failed to delete category.');
       }
     }
   };
@@ -69,6 +73,7 @@ const CategoryManager = () => {
 
   return (
     <div id="category-manager-container">
+      <ToastContainer />
       <h1 className="category-title">Category Manager</h1>
 
       <form id="category-form" onSubmit={handleSubmit}>
@@ -112,10 +117,10 @@ const CategoryManager = () => {
               <td>{category.categoryName}</td>
               <td>{category.categoryDescription}</td>
               <td>
-                  <div className="button-container">
-                    <button className="edit-button" onClick={() => handleEdit(category)}>Edit</button>
-                    <button className="delete-button" onClick={() => handleDelete(category.categoryId)}>Delete</button>
-                  </div>
+                <div className="button-container">
+                  <button className="edit-button" onClick={() => handleEdit(category)}>Edit</button>
+                  <button className="delete-button" onClick={() => handleDelete(category.categoryId)}>Delete</button>
+                </div>
               </td>
             </tr>
           ))}

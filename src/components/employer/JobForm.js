@@ -1,12 +1,13 @@
-// src/components/JobForm.js
 import React, { useState, useEffect } from 'react';
-import api from '../../config/api'; // Import the configured axios instance
+import api from '../../config/api';
 import '../Styles/JobForm.css'; 
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 const JobForm = () => {
 
-  const employerId = useSelector((state) => state.employer.employerId); // Get employerId from Redux store
+  const employerId = useSelector((state) => state.employer.employerId); 
   console.log(employerId);
 
   const [categories, setCategories] = useState([]);
@@ -22,7 +23,6 @@ const JobForm = () => {
   const [postDate, setPostDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Fetch categories for dropdown
   useEffect(() => {
     api.get('/categories/all')
       .then(response => setCategories(response.data))
@@ -47,7 +47,6 @@ const JobForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Create job object
     const job = {
       jobTitle,
       companyName,
@@ -58,15 +57,15 @@ const JobForm = () => {
       salaryRange,
       experienceRequired,
       location,
-      employer: { empolyerId: employerId },  // Ensure this matches your API expectation
+      employer: { empolyerId: employerId },  
       postDate,
       endDate
     };
 
-    // Submit job post
     api.post('/jobs/create', job)
       .then(response => {
         console.log('Job created successfully:', response.data);
+        toast.success('Job created successfully!');
 
         setJobTitle('');
         setCompanyName('');
@@ -82,6 +81,7 @@ const JobForm = () => {
       })
       .catch(error => {
         console.error('Error creating job:', error);
+        toast.error('Error creating job. Please try again.');
       });
   };
 
@@ -218,6 +218,7 @@ const JobForm = () => {
         </div>
         <button type="submit">Post Job</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

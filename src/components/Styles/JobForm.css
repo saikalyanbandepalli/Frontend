@@ -1,34 +1,31 @@
-/* General container styling */
+
 .job-form-container {
-    background-color: #EFE2F8; /* Light grey type color */
+    background-color: #EFE2F8; 
     padding: 20px;
     border-radius: 8px;
     max-width: 900px;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
-  /* Title styling */
+
   .job-form-container h2 {
-    color: #6300B3; /* Royal Purple */
+    color: #6300B3; 
     text-align: center;
     margin-bottom: 20px;
   }
-  
-  /* Form elements styling */
+
   .job-form-container form div {
     margin-bottom: 15px;
   }
   
-  /* Labels */
+
   .job-form-container label {
     display: block;
     font-weight: bold;
-    color: #303030; /* Black */
+    color: #303030; 
     margin-bottom: 5px;
   }
   
-  /* Input fields */
   .job-form-container input[type="text"],
   .job-form-container input[type="date"],
   .job-form-container textarea,
@@ -39,22 +36,19 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
-  /* Textarea styling */
+
   .job-form-container textarea {
     height: 100px;
     resize: vertical;
   }
-  
-  /* Select elements */
+
   .job-form-container select {
-    background-color: #FFFFFF; /* White */
+    background-color: #FFFFFF; 
   }
-  
-  /* Button styling */
+
   .job-form-container button {
-    background-color: #6300B3; /* Royal Purple */
-    color: #FFFFFF; /* White */
+    background-color: #6300B3; 
+    color: #FFFFFF; 
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
@@ -64,12 +58,11 @@
   }
   
   .job-form-container button:hover {
-    background-color: #4e00a3; /* Darker shade of Royal Purple for hover effect */
+    background-color: #4e00a3; 
   }
-  
-  /* Optional text styling */
+
   .job-form-container .optional-text {
-    color: #303030; /* Black */
+    color: #303030; 
     font-style: italic;
     font-size: 0.9em;
   }

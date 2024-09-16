@@ -1,20 +1,16 @@
-/* JobList.css */
 
-/* Container for the job list */
 #job-list-container {
     font-family: Arial, sans-serif;
     margin: 20px;
     overflow-x: auto;
   }
-  
-  /* Title of the job list */
+
   .job-list-title {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
   }
-  
-  /* Job table styles */
+
   #job-table {
     width: 100%;
     border-collapse: collapse;
@@ -32,8 +28,7 @@
     background-color: #f4f4f4;
     color: #333;
   }
-  
-  /* Pagination controls */
+
   #pagination-controls {
     text-align: center;
     margin: 20px 0;
@@ -52,8 +47,7 @@
   .page-btn.active {
     background-color: #0056b3;
   }
-  
-  /* Applicants modal styles */
+
   #applicants-modal {
     position: fixed;
     top: 50%;
@@ -87,8 +81,7 @@
   .close-modal-btn:hover {
     background-color: #c82333;
   }
-  
-  /* Applicants table styles */
+
   #applicants-table {
     width: 100%;
     border-collapse: collapse;
