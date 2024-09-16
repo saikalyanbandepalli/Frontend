@@ -113,13 +113,13 @@
     margin-top: 15px;
     font-size: 14px;
     color: #007bff;
-    cursor: pointer; /* Changes the cursor to pointer on hover */
-    transition: color 0.3s ease; /* Smooth transition for color change */
+    cursor: pointer; 
+    transition: color 0.3s ease; 
   }
   
   .forgot-password-text:hover {
-    color: #0056b3; /* Change to a darker blue on hover */
-    text-decoration: underline; /* Optional: underline the text on hover */
+    color: #0056b3; 
+    text-decoration: underline; 
   }
   
 

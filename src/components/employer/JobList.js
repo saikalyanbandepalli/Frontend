@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../config/api'; // Import base URL API
-import '../Styles/JobList.css'; // Import CSS for styling
+import api from '../../config/api'; 
+import '../Styles/JobList.css'; 
 import { useSelector } from 'react-redux';
 
 const JobList = () => {
-  const employerId = useSelector((state) => state.employer.employerId); // Get employerId from Redux store
+  const employerId = useSelector((state) => state.employer.employerId); 
 
   const [jobs, setJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage] = useState(5);
   const [selectedJob, setSelectedJob] = useState(null);
   const [applicants, setApplicants] = useState([]);
-  const [statusUpdate, setStatusUpdate] = useState({}); // For managing status updates for applicants
-  const [applicantStatuses, setApplicantStatuses] = useState({}); // Store applicant statuses
+  const [statusUpdate, setStatusUpdate] = useState({}); 
+  const [applicantStatuses, setApplicantStatuses] = useState({}); 
 
   useEffect(() => {
     fetchJobs();
@@ -37,22 +37,19 @@ const JobList = () => {
       setSelectedJob(job);
       setApplicants(job.applicants);
 
-      // Fetch application statuses for each applicant
       await fetchApplicantStatuses(job.applicants, jobId);
     } catch (error) {
       console.error('Error fetching applicants:', error);
     }
   };
 
-  // Fetch the status for each applicant using the API
   const fetchApplicantStatuses = async (applicants, jobId) => {
     const statusMap = {};
     for (const applicant of applicants) {
       try {
-        // Fetch the status for the applicant
         const response = await api.get(`/jobs/user/${applicant.userId}/applications`);
         const applicationStatus = response.data.find(application => application.job.jobId === jobId)?.status;
-        statusMap[applicant.userId] = applicationStatus || 'Pending'; // Default to 'Pending' if no status found
+        statusMap[applicant.userId] = applicationStatus || 'Pending'; 
       } catch (error) {
         console.error('Error fetching applicant status:', error);
       }
@@ -69,15 +66,13 @@ const JobList = () => {
 
   const handleViewResume = (userId) => {
     console.log('Viewing resume for userId:', userId);
-    // Logic to view the resume (e.g., redirect to resume URL or download)
   };
 
   const handleUpdateStatus = async (userId, jobId) => {
     const updatedStatus = statusUpdate[userId];
     try {
       await api.put(`/applications/updateStatus/${userId}/${jobId}?status=${updatedStatus}`);
-      // Optionally, refetch applicant statuses or update the UI as needed
-      await fetchApplicantStatuses(applicants, jobId); // Refresh statuses
+      await fetchApplicantStatuses(applicants, jobId); 
     } catch (error) {
       console.error('Error updating status:', error);
     }
@@ -139,7 +134,6 @@ const JobList = () => {
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
       <div id="pagination-controls">
         {Array.from({ length: totalPages }, (_, i) => (
           <button
@@ -152,7 +146,6 @@ const JobList = () => {
         ))}
       </div>
 
-      {/* Applicants Modal */}
       {selectedJob && (
         <div id="applicants-modal">
           <h2>Applicants for {selectedJob.jobTitle}</h2>
@@ -181,7 +174,7 @@ const JobList = () => {
                     <td>
                       <button onClick={() => handleViewResume(applicant.userId)}>View Resume</button>
                     </td>
-                    <td>{applicantStatuses[applicant.userId] || "Pending"}</td> {/* Display fetched status */}
+                    <td>{applicantStatuses[applicant.userId] || "Pending"}</td> 
                     <td>
                       {applicantStatuses[applicant.userId] !== 'WITHDRAWN' && (
                         <>
