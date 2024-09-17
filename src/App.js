@@ -10,6 +10,7 @@ import JobPortalDashBoard from "./components/JobSeeker/JobPortalDashBoard";
 import ResumeForm from "./components/JobSeeker/ResumeForm";
 import EmployerDashboard from "./components/employer/EmployerDashboard";
 import JobForm from "./components/employer/JobForm";
+import MyJobs from "./components/JobSeeker/MyJobs";
 
 const App = () => {
   return (
@@ -25,6 +26,8 @@ const App = () => {
           path="/Jobseekeregisteration"
           element={<JobseekerRegistration />}
         />
+        <Route path="/JobPortal/myjobs/:userId" element={<MyJobs />} />
+
         <Route
           path="/Employerregistration"
           element={<EmployerRegistration />}
