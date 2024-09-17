@@ -21,6 +21,14 @@ const ResumeForm = () => {
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [resumeExists, setResumeExists] = useState(false); // New state to check if resume exists
+  const [userName,setUserName] =  useState('');
+  const [email,setEmail] =  useState('');
+  const [contactNumber,setContactNumber] =  useState('');
+  const [address,setAddress] =  useState('');
+
+  console.log(userName);
+  console.log(email);
+  
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -43,6 +51,10 @@ const ResumeForm = () => {
       axios.get(`http://localhost:8080/api/resumes/user/${userId}`)
         .then(response => {
           if (response.data && response.data.skills.length) {
+            setUserName(response.data.user.userName);
+            setEmail(response.data.user.email);
+            setContactNumber(response.data.user.contactNumber);
+            setAddress(response.data.user.address);
             setResumeExists(true);
           } else {
             setResumeExists(false);
@@ -150,7 +162,7 @@ const ResumeForm = () => {
       </div>
 
       {mode === 'view' ? (
-        <ResumeView data={formData} />
+        <ResumeView data={{formData,userName,email,contactNumber,address}} />
       ) : (
         <form onSubmit={handleSubmit} className="resume-form">
           <h2>{mode === 'create' ? 'Create Resume' : 'Update Resume'}</h2>
@@ -308,53 +320,65 @@ const ResumeForm = () => {
   );
 };
 
-const calculateExperience = (startDate, endDate) => {
-  const start = new Date(startDate);
-  const end = endDate ? new Date(endDate) : new Date(); // Use current date if endDate is not provided
-  const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-  return { years, months };
-};
 
-const ResumeView = ({ data }) => (
-  <div className="resume-view">
-    <h2>Resume</h2>
-    <h3>Summary</h3>
-    <p>{data.summary.summaryText}</p>
+const ResumeView = ({ data }) => {
+  const { formData, userName, email, contactNumber, address } = data;
 
-    <h3>Education</h3>
-    {data.education.map((edu, index) => (
-      <div key={index}>
-        <p>{edu.degree} from {edu.institution} ({edu.startYear} - {edu.endYear})</p>
+  const calculateExperience = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = endDate ? new Date(endDate) : new Date(); 
+    const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+    return { years, months };
+  };
+
+  return (
+    <div className="resume-view">
+      <h2>Resume</h2>
+
+      <div className="contact-info">
+        <p><strong>Name:</strong> {userName}</p>
+        <p><strong>Email:</strong> {email}</p>
+        <p><strong>Contact Number:</strong> {contactNumber}</p>
+        <p><strong>Address:</strong> {address}</p>
       </div>
-    ))}
 
-    <h3>Skills</h3>
-    {data.skills.map((skill, index) => (
-      <div key={index}>
-        <p>{skill.skillName}: {skill.skillDescription}</p>
-      </div>
-    ))}
+      <h3 className="summary">Summary</h3>
+      <p>{formData.summary.summaryText}</p>
 
-    <h3>Experience</h3>
-    {data.experience.map((exp, index) => {
-      const { years, months } = calculateExperience(exp.startDate, exp.endDate);
-      return (
+      <h3 className="education">Education</h3>
+      {formData.education.map((edu, index) => (
         <div key={index}>
-          <p>{exp.jobPosition} at {exp.officeName} ({years} years and {months} months)</p>
+          <p>{edu.degree} from {edu.institution} ({edu.startYear} - {edu.endYear})</p>
         </div>
-      );
-    })}
+      ))}
 
-    <h3>Languages</h3>
-    {data.languages.map((lang, index) => (
-      <div key={index}>
-        <p>{lang.languageName} - {lang.proficiency}</p>
-      </div>
-    ))}
-  </div>
-);
+      <h3 className="skills">Skills</h3>
+      {formData.skills.map((skill, index) => (
+        <div key={index}>
+          <p>{skill.skillName}: {skill.skillDescription}</p>
+        </div>
+      ))}
 
+      <h3 className="experience">Experience</h3>
+      {formData.experience.map((exp, index) => {
+        const { years, months } = calculateExperience(exp.startDate, exp.endDate);
+        return (
+          <div key={index}>
+            <p>{exp.jobPosition} at {exp.officeName} ({years} years and {months} months)</p>
+          </div>
+        );
+      })}
+
+      <h3 className="languages">Languages</h3>
+      {formData.languages.map((lang, index) => (
+        <div key={index}>
+          <p>{lang.languageName} - {lang.proficiency}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default ResumeForm;

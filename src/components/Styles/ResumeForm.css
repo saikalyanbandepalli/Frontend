@@ -1,7 +1,6 @@
-/* Container for the form */
 .resume-form {
-  max-width: 900px; /* Maximum width for the form */
-  margin: 20px auto; /* Center the form horizontally */
+  max-width: 900px;
+  margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -10,7 +9,6 @@
   box-sizing: border-box;
 }
 
-/* Header for the form */
 .resume-form h2 {
   font-size: 2rem;
   color: #6300b3;
@@ -18,7 +16,6 @@
   text-align: center;
 }
 
-/* Section titles */
 .resume-form h3 {
   font-size: 1.5rem;
   color: #303030;
@@ -26,7 +23,6 @@
   margin-bottom: 15px;
 }
 
-/* Input fields and textareas */
 .resume-form input[type="text"],
 .resume-form input[type="date"],
 .resume-form textarea,
@@ -41,7 +37,6 @@
   box-sizing: border-box;
 }
 
-/* Styling for buttons */
 .resume-form button {
   background-color: #6300b3;
   color: #ffffff;
@@ -55,12 +50,10 @@
   transition: background-color 0.3s ease;
 }
 
-/* Hover state for buttons */
 .resume-form button:hover {
   background-color: #4b0082;
 }
 
-/* Add Section buttons */
 .resume-form .add-section-button {
   background-color: #28a745;
 }
@@ -69,7 +62,6 @@
   background-color: #218838;
 }
 
-/* Button to switch modes */
 .resume-form button.mode-switch {
   background-color: #6c757d;
 }
@@ -78,51 +70,45 @@
   background-color: #5a6268;
 }
 
-/* Divs for different sections */
 .resume-form > div {
   margin-bottom: 20px;
 }
 
-/* Style for textarea */
 .resume-form textarea {
   height: 200px;
   resize: vertical;
 }
 
-/* Disabled state styling */
 .resume-form input:disabled,
 .resume-form textarea:disabled {
   background-color: #f1f1f1;
   cursor: not-allowed;
 }
 
-/* Spacing for buttons */
 .button-spacing {
-  margin-bottom: 20px; /* Adjust the spacing as needed */
+  margin-bottom: 20px;
 }
 
 .resume-form .submit-button {
-  margin-top: 20px; /* Adds space above the submit buttons */
+  margin-top: 20px;
   margin-left: 80%;
   display: block;
 }
-/* ResumeForm.css */
 
-/* Ensure that the resume-header container uses flexbox to align items */
 .resume-header {
   display: flex;
-  justify-content: flex-end; /* Aligns buttons to the right side */
+  justify-content: flex-end;
   padding: 10px;
-  background-color: #f8f9fa; /* Optional: Background color for visual separation */
-  border-bottom: 1px solid #ddd; /* Optional: Bottom border for visual separation */
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
 }
 
 .button-spacing {
-  margin-left: 10px; /* Add some space between buttons */
-  padding: 8px 16px; /* Adjust padding as needed */
+  margin-left: 10px;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #6300b3; /* Primary button color */
+  background-color: #6300b3;
   color: #fff;
   cursor: pointer;
   font-size: 14px;
@@ -130,15 +116,13 @@
 }
 
 .button-spacing:hover {
-  background-color: #6300b3; /* Darker shade for hover effect */
+  background-color: #6300b3;
 }
 
 .button-spacing:focus {
-  outline: none; /* Remove default focus outline */
+  outline: none;
 }
 
-
-/* Error messages */
 .error-message,
 .api-error-message {
   color: red;
@@ -146,69 +130,99 @@
   margin-top: 5px;
 }
 
-/* Resume view */
 .resume-view {
   display: flex;
   flex-direction: column;
   padding: 20px;
   margin: auto;
   max-width: 800px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .resume-view h2 {
-  font-size: 24px;
+  font-size: 28px;
   margin-bottom: 20px;
   text-align: center;
-  background-color: #6300b3;
+  background-color: #6200ea;
   color: white;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .resume-view h3 {
-  font-size: 20px;
+  font-size: 22px;
   margin-top: 20px;
   margin-bottom: 10px;
-  text-align: left;
+  color: #333;
+  display: flex;
+  align-items: center;
 }
 
-.resume-view p,
-.resume-view ul {
-  margin: 0;
-  padding: 0;
+.resume-view h3::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  text-align: center;
+  line-height: 24px;
 }
 
-.resume-view ul {
-  list-style-type: none;
-  padding-left: 0;
+.resume-view h3.summary::before {
+  content: "\f05a";
+  font-size: 24px;
+  color: #6200ea;
 }
 
-.resume-view li {
-  margin-bottom: 10px;
+.resume-view h3.skills::before {
+  content: "\f559";
+  font-size: 24px;
+  color: #6200ea;
+}
+
+.resume-view h3.education::before {
+  content: "\f19c";
+  font-size: 24px;
+  color: #6200ea;
+}
+
+.resume-view h3.experience::before {
+  content: "\f0b1";
+  font-size: 24px;
+  color: #6200ea;
+}
+
+.resume-view h3.languages::before {
+  content: "\f1ab";
+  font-size: 24px;
+  color: #6200ea;
 }
 
 .resume-dropdown {
   position: relative;
   display: inline-block;
 }
+
 .resume-dropdown button {
-  background-color: #9e9797; 
-  color: #6300B3; 
+  background-color: #9e9797;
+  color: #6300B3;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.1rem;
   text-decoration: none;
-  margin: 10px; 
-  position: relative; 
-  top: 10px; 
-  left: 20px; 
+  margin: 10px;
+  position: relative;
+  top: 10px;
+  left: 20px;
 }
+
 .resume-dropdown-menu button {
   background: none;
   border: none;
@@ -224,12 +238,12 @@
   content: "";
   display: block;
   position: absolute;
-  left: 20px; /* Adjust to position the line */
+  left: 20px;
   bottom: 0;
-  width: 23%; /* Adjust width to reduce line length */
-  border-bottom: 1px solid #ddd; /* Separator line */
+  width: 23%;
+  border-bottom: 1px solid #ddd;
 }
-/* Animation for fade-in effect */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -239,7 +253,6 @@
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .resume-form {
     margin: 0 10px;
