@@ -41,13 +41,14 @@
 }
 
 .employerdashboard-logout-button {
-    background-color: #333;
+    background-color: #f03f3f;
     color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
+    font-size: medium;
 }
 
 .employerdashboard-logout-button:hover {
@@ -228,4 +229,6 @@
     .job-cards-container {
         grid-template-columns: 1fr;
     }
+
+
 }

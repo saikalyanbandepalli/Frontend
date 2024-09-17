@@ -122,7 +122,13 @@ const ResumeForm = () => {
   };
 
   const handleGoBack = () => {
-    navigate(`/JobPortal/jobseeker/${userId}`);
+    console.log("userId:", userId);  
+    if (userId) {
+      navigate(`/JobPortal/jobseeker/${userId}`);
+    } else {
+      console.error("User ID is missing");
+      navigate("/login");
+    }
   };
 
   const handleLogout = () => {

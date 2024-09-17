@@ -229,7 +229,13 @@ const JobPortalDashBoard = () => {
           <li>
             <a onClick={() => navigate(`/ResumeForm`)}>Resume</a>
           </li>
+          <li>
+            <a onClick={() => navigate(`/ResetPassword`)}>
+              ResetPassword
+              </a>
+          </li>
         </ul>
+
         <div className="top-navbar-profile1">
           <div className="profile-info">
             <FontAwesomeIcon
@@ -238,7 +244,7 @@ const JobPortalDashBoard = () => {
               onClick={handleProfileClick}
             />
             <button
-              className="employerdashboard-logout-button1"
+              className="Jobportaldashboard-logout-button"
               onClick={handleLogout}
             >
               Logout
@@ -249,9 +255,11 @@ const JobPortalDashBoard = () => {
 
       <header className="job-portal-header">
         <h1>Find Your Dream Job Now!</h1>
-        <p>Select a Job category and we'll show you relevant jobs for it!</p>
+        {userDetails && (
+          <p><b>Welcome, <strong>{userDetails.userName}</strong>!</b></p>
+           )}
+           <p>Select a Job category and we'll show you relevant jobs for it!</p>
       </header>
-
       <div className="job-search-section">
         <div className="input-group">
           <input
@@ -404,6 +412,12 @@ const JobPortalDashBoard = () => {
             <strong>Name:</strong> {userDetails.userName}
           </p>
           <p>
+            <strong>FirstName:</strong> {userDetails.firstName}
+          </p>
+          <p>
+            <strong>LastName:</strong> {userDetails.Name}
+          </p>
+          <p>
             <strong>Email:</strong> {userDetails.email}
           </p>
           <p>
@@ -411,12 +425,6 @@ const JobPortalDashBoard = () => {
           </p>
           <p>
             <strong>Address:</strong> {userDetails.address}
-          </p>
-          <p>
-            <strong>Date of Joining:</strong> {userDetails.yearOfPassing}
-          </p>
-          <p>
-            <strong>Experience:</strong> {userDetails.experience}
           </p>
         </div>
       )}

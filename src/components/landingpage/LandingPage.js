@@ -15,7 +15,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await api.get("/jobs");
+        const response = await api.get("/jobs/all");
         const jobData = response.data.data;
         if (Array.isArray(jobData)) {
           setJobs(jobData);
@@ -128,24 +128,6 @@ const LandingPage = () => {
             efficiently.
           </li>
         </ul>
-      </div>
-
-      <div className="landing-jobs">
-        <h2 className="landing-jobs-title">Job Opportunities</h2>
-        {!loading && jobs.length === 0 && error && <p>{error}</p>}
-        {!loading && jobs.length > 0 && (
-          <div className="landing-jobs-box">
-            {jobs.map((job) => (
-              <div key={job.jobId} className="landing-job-posting">
-                <h5>{job.jobTitle}</h5>
-                <p>{job.companyName}</p>
-                <p>{job.location}</p>
-                <p>{job.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
-        {loading && <p>Loading jobs...</p>}
       </div>
 
       <footer className="landing-footer">

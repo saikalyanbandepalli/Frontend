@@ -12,16 +12,28 @@ import com6 from "../images/com6_valid.jpg";
 import com7 from "../images/com7_valid.jpg";
 import com8 from "../images/com8_valid.jpg";
 
+const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
+
 const MyJobs = () => {
   const { userId } = useParams();
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
 
+  // Function to get a random logo
+  const getRandomLogo = () => {
+    const randomIndex = Math.floor(Math.random() * companyLogos.length);
+    return companyLogos[randomIndex];
+  };
+
   useEffect(() => {
     api1
       .get(`/jobs/user/${userId}/applications`)
       .then((response) => {
-        setJobs(response.data);
+        const jobsWithLogos = response.data.map((job) => ({
+          ...job,
+          logo: getRandomLogo(), // Assign random logo to each job
+        }));
+        setJobs(jobsWithLogos);
       })
       .catch((error) => {
         console.error("Error fetching jobs:", error);
@@ -56,13 +68,6 @@ const MyJobs = () => {
     }
   };
 
-  const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
-
-  const getRandomLogo = () => {
-    const randomIndex = Math.floor(Math.random() * companyLogos.length);
-    return companyLogos[randomIndex];
-  };
-
   const handleGoBack = () => {
     navigate(`/JobPortal/jobseeker/${userId}`);
   };
@@ -74,9 +79,6 @@ const MyJobs = () => {
   return (
     <>
       <nav className="navbar1">
-        <div className="navbar-header">
-          <h1>My Jobs</h1>
-        </div>
         <div className="navbar-buttons">
           <button className="navbar-button1" onClick={handleGoBack}>
             Go Back
@@ -85,13 +87,16 @@ const MyJobs = () => {
             Logout
           </button>
         </div>
+        <div className="navbar-header">
+          <h1>My Jobs</h1>
+        </div>
       </nav>
       <div className="my-job-listings">
         {jobs.length > 0 ? (
           jobs.map((application) => (
             <div key={application.applicationId} className="my-job-card">
               <img
-                src={getRandomLogo()}
+                src={application.logo}
                 alt="Company Logo"
                 className="my-company-logo"
               />
@@ -120,6 +125,7 @@ const MyJobs = () => {
                     onClick={() =>
                       handleWithdrawClick(application.applicationId)
                     }
+                    style={{ marginLeft: "10px" }} // Adding space between buttons
                   >
                     Withdraw
                   </button>
