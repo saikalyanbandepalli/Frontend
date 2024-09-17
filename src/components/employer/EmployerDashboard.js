@@ -41,12 +41,20 @@ const EmployerDashboard = () => {
   const [searchExperience, setSearchExperience] = useState("");
   const [searchSalary, setSearchSalary] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     if (employerDetails) {
       console.log("Received user data:", employerDetails);
     } else {
       console.log("No user data received.");
+    }
+  }, [employerDetails]);
+
+  useEffect(() => {
+    if (!employerDetails) {
+      fetchEmployerDetails();
     }
   }, [employerDetails]);
 
@@ -68,6 +76,7 @@ const EmployerDashboard = () => {
     setShowJobForm(false);
     setShowHome(false);
     setShowJobList(false);
+    setShowResetPassword(false);
     setShowDetails(false);
   };
 
@@ -76,6 +85,7 @@ const EmployerDashboard = () => {
     setShowCategoryManager(false);
     setShowHome(false);
     setShowJobList(false);
+    setShowResetPassword(false);
     setShowDetails(false);
   };
 
@@ -84,6 +94,7 @@ const EmployerDashboard = () => {
     setShowJobForm(false);
     setShowCategoryManager(false);
     setShowHome(false);
+    setShowResetPassword(false);
     setShowDetails(false);
   };
 
@@ -94,13 +105,14 @@ const EmployerDashboard = () => {
     setShowHome(false);
     setShowJobList(false);
     setShowDetails(false);
-  };  
+  };
 
   const fetchEmployerDetails = async () => {
     try {
       const response = await api.get(`/employers/${employerId}`);
       setEmployerDetails(response.data);
       setError(null);
+      setProfileImage(response.data.profilePictureUrl);
     } catch (err) {
       setError('Failed to fetch employer details.');
     }
@@ -123,14 +135,25 @@ const EmployerDashboard = () => {
     setShowDetails(!showDetails);
   };
 
-  useEffect(() => {
-    if (!employerDetails) {
-      fetchEmployerDetails();
-    }
-  }, [employerDetails]);
-
   const handleSearch = () => {
     fetchJobs();
+  };
+
+  const handleProfileImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setProfileImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDeleteImage = () => {
+    setProfileImage(null);
+    setPreviewImage(null);
   };
 
   const filteredJobs = jobs.filter(job =>
@@ -201,7 +224,6 @@ const EmployerDashboard = () => {
                       <div className="job-details">
                         <p className="job-detail"><strong>Experience Required:</strong> {job.experienceRequired}</p>
                         <p className="job-detail"><strong>Salary Range:</strong> {job.salaryRange}</p>
-                        <p className="job-detail"><strong>Job Type:</strong> {job.jobType}</p>
                       </div>
                     </div>
                   </div>
@@ -213,34 +235,40 @@ const EmployerDashboard = () => {
           </div>
         )}
 
-      {(showJobForm || showCategoryManager || showJobList || showResetPassword) && (
-        <div className="employerdashboard-form-container">
-        {showJobForm ? <JobForm /> :
-        showCategoryManager ? <CategoryManager /> :
-        showJobList ? <JobList /> :
-        showResetPassword && <ResetPasswordForm />}
-      </div>
-    )}
+        {showJobForm && <JobForm />}
+        {showCategoryManager && <CategoryManager />}
+        {showJobList && <JobList />}
+        {showResetPassword && <ResetPasswordForm />}
+        
+        {showDetails && (
+          <div className="profile-overlay">
+            <div className="profile-box">
+              <span className="profile-close" onClick={() => setShowDetails(false)}>&times;</span>
+              {employerDetails && (
+                <>
+                  <div className="profile-picture-container">
+                    <img
+                      src={previewImage || employerDetails.profilePictureUrl || 'https://via.placeholder.com/120?text=Profile+Image'}
+                      alt="Profile"
+                      className="profile-picture"
+                    />
+                    <input type="file" accept="image/*" onChange={handleProfileImageChange} />
+                    {profileImage && <button onClick={handleDeleteImage}>Delete Image</button>}
+                  </div>
+                  <div className="profile-details">
+                    <h2>{employerDetails.employerName}'s profile</h2>
+                    <p><strong>Name:</strong> {employerDetails.employerName}</p>
+                  <p><strong>Email:</strong> {employerDetails.email}</p>
+                  <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
+                  <p><strong>Address:</strong> {employerDetails.address}</p>
 
-        {showDetails && employerDetails && (
-          <div className="employerdashboard-modal">
-            <div className="employerdashboard-modal-content">
-              <span className="employerdashboard-close" onClick={() => setShowDetails(false)}>&times;</span>
-              <h2>{employerDetails.employerName}'s Profile</h2>
-              <p><strong>Name:</strong> {employerDetails.employerName}</p>
-              <p><strong>Email:</strong> {employerDetails.email}</p>
-              <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
-              <p><strong>Address:</strong> {employerDetails.address}</p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
-
-        {error && <p className="employerdashboard-error">{error}</p>}
       </div>
-
-      <footer className="login-footer">
-        <p>&copy; 2024 RevHire. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
