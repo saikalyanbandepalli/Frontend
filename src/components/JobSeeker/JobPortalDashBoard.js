@@ -10,6 +10,7 @@ import com6 from "../images/com6_valid.jpg";
 import com7 from "../images/com7_valid.jpg";
 import com8 from "../images/com8_valid.jpg";
 import api1 from "../../config/api1";
+import api from "../../config/api";
 import { useParams, useNavigate } from "react-router-dom";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -76,16 +77,28 @@ const JobPortalDashBoard = () => {
     navigate("/login");
   };
 
+  // const handleProfileClick = async () => {
+  //   if (!showDetails) {
+  //     try {
+  //       const response = await api1.get(`/appliedJobs/user/${userId}`);
+  //       if (response.data.length > 0) {
+  //         const user = response.data[0]?.user;
+  //         setUserDetails(user);
+  //       } else {
+  //         console.warn("No user details found.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user details:", error);
+  //     }
+  //   }
+  //   setShowDetails(!showDetails);
+  // };
+
   const handleProfileClick = async () => {
     if (!showDetails) {
       try {
-        const response = await api1.get(`/appliedJobs/user/${userId}`);
-        if (response.data.length > 0) {
-          const user = response.data[0]?.user;
-          setUserDetails(user);
-        } else {
-          console.warn("No user details found.");
-        }
+        const response = await api.get(`/users/${userId}`);
+        setUserDetails(response.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
