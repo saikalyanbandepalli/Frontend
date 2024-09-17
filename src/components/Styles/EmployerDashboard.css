@@ -41,14 +41,13 @@
 }
 
 .employerdashboard-logout-button {
-    background-color: #f03f3f;
+    background-color: #333;
     color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
-    font-size: medium;
 }
 
 .employerdashboard-logout-button:hover {
@@ -81,119 +80,10 @@
     margin: 0 auto;
     width: 100%;
 }
-/* Profile Styles */
-.profile-picture-container {
-    text-align: center;
-    margin-bottom: 10px;
-}
 
-.profile-picture {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #f0f0f0;
-    display: inline-block;
-}
-
-.profile-icon {
-    font-size: 120px;
-    color: #ccc;
-}
-
-.profile-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.profile-details p {
-    margin: 5px 0;
-}
-
-.profile-details input[type="file"] {
-    margin-top: 10px;
-}
-
-.profile-details button {
-    background-color: #9b59b6;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.profile-details button:hover {
-    background-color: #8e44ad;
-}
-
-.profile-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-box {
-    background-color:white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    position: relative;
-}
-
-.profile-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-/* Image Actions */
-.image-actions {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.image-actions input[type="file"] {
-    margin-bottom: 10px;
-}
-
-.image-actions button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-}
-
-.image-actions button.upload-button {
-    background-color: #6300B3;
-}
-
-.image-actions button.delete-button {
-    background-color: #f00;
-}
-
-.image-actions button:hover {
-    opacity: 0.8;
-}
-
-/* Job Cards Container */
 .job-cards-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Four columns */
     gap: 20px;
     margin-top: 20px;
 }
@@ -251,7 +141,6 @@
     background-color: #333;
 }
 
-/* Modal Styles */
 .employerdashboard-modal {
     position: fixed;
     top: 0;
@@ -303,7 +192,6 @@
     z-index: 1000;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .employerdashboard-top-navbar {
         flex-direction: column;
@@ -332,7 +220,7 @@
     }
 
     .job-cards-container {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive adjustment */
     }
 }
 
@@ -340,10 +228,4 @@
     .job-cards-container {
         grid-template-columns: 1fr;
     }
-<<<<<<< HEAD
-
-
 }
-=======
-}
->>>>>>> 22163a940a3f03f9a0eea80dd99baaef434f4471
