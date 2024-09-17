@@ -10,6 +10,7 @@ import JobPortalDashBoard from "./components/JobSeeker/JobPortalDashBoard";
 import ResumeForm from "./components/JobSeeker/ResumeForm";
 import EmployerDashboard from "./components/employer/EmployerDashboard";
 import JobForm from "./components/employer/JobForm";
+import ViewResume from './components/employer/ViewResume';
 import MyJobs from "./components/JobSeeker/MyJobs";
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/ResumeForm" element={<ResumeForm />} />
         <Route path="/EmployerDashboard" element={<EmployerDashboard />} />
         <Route path="/JobForm" element={<JobForm />} />
+        <Route path="/viewResume/:userId" element={<ViewResume />} />
       </Routes>
     </Router>
   );

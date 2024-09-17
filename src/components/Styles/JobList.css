@@ -244,29 +244,34 @@
     border-radius: 4px;
     text-align: center;
     display: inline-block;
-    width: 100px; /* Adjust as needed */
+    width: 100px; 
 }
 
 /* Applied status */
 .status.APPLIED {
     background-color: #FFE066; /* Yellow */
     color: #000000; /* Black */
+    font-size: 0.8em;
+    
 }
 
 /* Rejected status */
 .status.REJECTED {
     background-color: #FF6B6B; /* Red */
     color: #FFFFFF; /* White */
+    font-size: 0.8em;
 }
 
 /* Shortlisted status */
 .status.SHORTLISTED {
     background-color: #4ECDC4; /* Teal */
     color: #FFFFFF; /* White */
+    font-size: 0.8em;
 }
 
 /* Withdrawn status */
 .status.WITHDRAWN {
     background-color: #A29BFE; /* Purple */
     color: #FFFFFF; /* White */
+    font-size: 0.8em;
 }
