@@ -77,23 +77,6 @@ const JobPortalDashBoard = () => {
     navigate("/login");
   };
 
-  // const handleProfileClick = async () => {
-  //   if (!showDetails) {
-  //     try {
-  //       const response = await api1.get(`/appliedJobs/user/${userId}`);
-  //       if (response.data.length > 0) {
-  //         const user = response.data[0]?.user;
-  //         setUserDetails(user);
-  //       } else {
-  //         console.warn("No user details found.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user details:", error);
-  //     }
-  //   }
-  //   setShowDetails(!showDetails);
-  // };
-
   const handleProfileClick = async () => {
     if (!showDetails) {
       try {
@@ -109,7 +92,7 @@ const JobPortalDashBoard = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await api1.get("/jobs/all");
+        const response = await api1.get(`/jobs/not-applied/${userId}`);
         setJobs(response.data);
         setFilteredJobs(response.data);
       } catch (error) {
@@ -119,8 +102,12 @@ const JobPortalDashBoard = () => {
 
     const fetchAppliedJobs = async () => {
       try {
-        const response = await api1.get(`/appliedJobs/user/${userId}`);
-        const appliedJobData = response.data.map((job) => job.job);
+        const response = await api1.get(`/jobs/user/${userId}/applications`);
+        const appliedJobData = response.data.map((application) => ({
+          ...application.job,
+          status: application.status,
+        }));
+
         setAppliedJobs(appliedJobData);
       } catch (error) {
         console.error("Error fetching applied jobs:", error);
@@ -180,9 +167,10 @@ const JobPortalDashBoard = () => {
   const handleApplyClick = async () => {
     if (selectedJob) {
       try {
-        await api1.post("/appliedJobs/apply", null, {
+        const jobId = selectedJob.jobId;
+        await api1.post(`jobs/${jobId}/apply/${userId}`, null, {
           params: {
-            jobId: selectedJob.jobId,
+            jobid: jobId,
             jobSeekerId: userId,
           },
         });
@@ -234,7 +222,9 @@ const JobPortalDashBoard = () => {
             </a>
           </li>
           <li>
-            <a onClick={showAppliedJobsHandler}>My Jobs</a>
+            <a onClick={() => navigate(`/JobPortal/myjobs/${userId}`)}>
+              My Jobs
+            </a>
           </li>
           <li>
             <a onClick={() => navigate(`/ResumeForm`)}>Resume</a>
