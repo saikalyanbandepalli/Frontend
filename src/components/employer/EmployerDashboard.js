@@ -9,6 +9,7 @@ import JobForm from "./JobForm";
 import CategoryManager from "./CategoryManager";
 import JobList from "./JobList";
 import { useSelector } from 'react-redux';
+import ResetPasswordForm from "./ResetPasswordEmployer";
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -39,6 +40,7 @@ const EmployerDashboard = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [searchExperience, setSearchExperience] = useState("");
   const [searchSalary, setSearchSalary] = useState("");
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   useEffect(() => {
     if (employerDetails) {
@@ -57,6 +59,7 @@ const EmployerDashboard = () => {
     setShowJobForm(false);
     setShowCategoryManager(false);
     setShowJobList(false);
+    setShowResetPassword(false);
     fetchJobs();
   };
 
@@ -85,8 +88,13 @@ const EmployerDashboard = () => {
   };
 
   const handleResetPasswordClick = () => {
-    navigate('/reset-password');
-  };
+    setShowResetPassword(true);
+    setShowJobForm(false);
+    setShowCategoryManager(false);
+    setShowHome(false);
+    setShowJobList(false);
+    setShowDetails(false);
+  };  
 
   const fetchEmployerDetails = async () => {
     try {
@@ -205,11 +213,14 @@ const EmployerDashboard = () => {
           </div>
         )}
 
-        {(showJobForm || showCategoryManager || showJobList) && (
-          <div className="employerdashboard-form-container">
-            {showJobForm ? <JobForm /> : showCategoryManager ? <CategoryManager /> : <JobList />}
-          </div>
-        )}
+      {(showJobForm || showCategoryManager || showJobList || showResetPassword) && (
+        <div className="employerdashboard-form-container">
+        {showJobForm ? <JobForm /> :
+        showCategoryManager ? <CategoryManager /> :
+        showJobList ? <JobList /> :
+        showResetPassword && <ResetPasswordForm />}
+      </div>
+    )}
 
         {showDetails && employerDetails && (
           <div className="employerdashboard-modal">
@@ -226,6 +237,10 @@ const EmployerDashboard = () => {
 
         {error && <p className="employerdashboard-error">{error}</p>}
       </div>
+
+      <footer className="login-footer">
+        <p>&copy; 2024 RevHire. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

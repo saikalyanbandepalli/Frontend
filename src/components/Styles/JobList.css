@@ -1,121 +1,272 @@
-
+/* General Container Styling */
 #job-list-container {
     font-family: Arial, sans-serif;
     margin: 20px;
     overflow-x: auto;
-  }
+    color: #303030; /* Black */
+    background-color: #EFE2F8; /* Light Grey */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .job-list-title {
+/* Title Styling */
+.job-list-title {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
-  }
+    color: #6300B3; /* Royal Purple */
+    font-size: 2em;
+    font-weight: bold;
+}
 
-  #job-table {
+/* Job Table Styling */
+#job-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-  }
-  
-  #job-table th,
-  #job-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  #job-table th {
-    background-color: #f4f4f4;
-    color: #333;
-  }
+}
 
-  #pagination-controls {
+#job-table th,
+#job-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+#job-table th {
+    background-color: #6300B3; /* Royal Purple */
+    color: #FFFFFF; /* White */
+    font-weight: bold;
+}
+
+#job-table td {
+    background-color: #FFFFFF; /* White */
+}
+
+#job-table tr:nth-child(even) {
+    background-color: #EFE2F8; /* Light Grey */
+}
+
+#job-table td:first-child,
+#job-table th:first-child {
+    border-left: none;
+}
+
+#job-table td:last-child,
+#job-table th:last-child {
+    border-right: none;
+}
+
+/* Pagination Controls */
+#pagination-controls {
     text-align: center;
     margin: 20px 0;
-  }
-  
-  .page-btn {
+}
+
+.page-btn {
     padding: 10px 15px;
     margin: 0 5px;
     border: none;
-    background-color: #007bff;
-    color: white;
+    background-color: #6300B3; /* Royal Purple */
+    color: #FFFFFF; /* White */
     cursor: pointer;
     border-radius: 4px;
-  }
-  
-  .page-btn.active {
-    background-color: #0056b3;
-  }
+    transition: background-color 0.3s ease;
+}
 
-  #applicants-modal {
+.page-btn:hover {
+    background-color: #303030; /* Black */
+}
+
+.page-btn.active {
+    background-color: #303030; /* Black */
+}
+
+/* Modal Styling */
+#applicants-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 800px;
-    background-color: white;
+    background-color: #FFFFFF; /* White */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 20px;
     overflow-y: auto;
-  }
-  
-  #applicants-modal h2 {
-    margin-top: 0;
-    color: #333;
-  }
-  
-  .close-modal-btn {
-    background: #dc3545;
+}
+
+#applicants-modal h2 {
+    color: #6300B3; /* Royal Purple */
+}
+
+.close-modal-btn {
+    background: #dc3545; /* Bootstrap Danger */
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 4px;
     float: right;
-  }
-  
-  .close-modal-btn:hover {
-    background-color: #c82333;
-  }
+    transition: background-color 0.3s ease;
+}
 
-  #applicants-table {
+.close-modal-btn:hover {
+    background-color: #c82333;
+}
+
+/* Applicants Table */
+#applicants-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-  }
-  
-  #applicants-table th,
-  #applicants-table td {
+}
+
+#applicants-table th,
+#applicants-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
-  }
-  
-  #applicants-table th {
-    background-color: #f4f4f4;
-    color: #333;
-  }
-  
-  #applicants-table button {
-    background-color: #007bff;
+}
+
+#applicants-table th {
+    background-color: #6300B3; /* Royal Purple */
+    color: #FFFFFF; /* White */
+    font-weight: bold;
+}
+
+#applicants-table td {
+    background-color: #FFFFFF; /* White */
+}
+
+#applicants-table button {
+    background-color: #6300B3; /* Royal Purple */
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  #applicants-table button:hover {
-    background-color: #0056b3;
-  }
-  
-  #applicants-table select {
+    transition: background-color 0.3s ease;
+}
+
+#applicants-table button:hover {
+    background-color: #303030; /* Black */
+}
+
+#applicants-table select {
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  
+    color: #303030; /* Black */
+}
+
+/* Buttons for View Applicants */
+.view-applicants-btn {
+    background-color: #6300B3; /* Royal Purple */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-applicants-btn:hover {
+    background-color: #303030; /* Black */
+}
+
+/* Resume Modal Styling */
+#resume-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 900px;
+    background-color: #FFFFFF; /* White */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 30px;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.resume-section {
+    margin-bottom: 20px;
+}
+
+.resume-section h3 {
+    color: #6300B3; /* Royal Purple */
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #6300B3;
+    padding-bottom: 5px;
+}
+
+.resume-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.resume-section ul li {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.resume-section ul li span {
+    font-weight: bold;
+}
+
+/* Close Resume Button */
+.close-resume-btn {
+    background-color: #dc3545; /* Bootstrap Danger */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    float: right;
+    transition: background-color 0.3s ease;
+}
+
+.close-resume-btn:hover {
+    background-color: #c82333;
+}
+
+/* Status Colors */
+.status {
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    width: 100px; /* Adjust as needed */
+}
+
+/* Applied status */
+.status.APPLIED {
+    background-color: #FFE066; /* Yellow */
+    color: #000000; /* Black */
+}
+
+/* Rejected status */
+.status.REJECTED {
+    background-color: #FF6B6B; /* Red */
+    color: #FFFFFF; /* White */
+}
+
+/* Shortlisted status */
+.status.SHORTLISTED {
+    background-color: #4ECDC4; /* Teal */
+    color: #FFFFFF; /* White */
+}
+
+/* Withdrawn status */
+.status.WITHDRAWN {
+    background-color: #A29BFE; /* Purple */
+    color: #FFFFFF; /* White */
+}
