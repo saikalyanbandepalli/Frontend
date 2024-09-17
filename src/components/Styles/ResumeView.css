@@ -1,0 +1,154 @@
+.resume-view {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: auto;
+    max-width: 800px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resume-view h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: #6300b3;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resume-view h3 {
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .resume-view h3::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 24px;
+  }
+  
+  .resume-view h3.summary::before {
+    content: "\f05a";
+    font-size: 24px;
+    color: #6300b3;
+  }
+  
+  .resume-view h3.skills::before {
+    content: "\f559";
+    font-size: 24px;
+    color: #6300b3;
+  }
+  
+  .resume-view h3.education::before {
+    content: "\f19c";
+    font-size: 24px;
+    color:#6300b3;
+  }
+  
+  .resume-view h3.experience::before {
+    content: "\f0b1";
+    font-size: 24px;
+    color: #6300b3;
+  }
+  
+  .resume-view h3.languages::before {
+    content: "\f1ab";
+    font-size: 24px;
+    color: #6300b3;
+  }
+  
+  .resume-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .resume-dropdown button {
+    background-color: #9e9797;
+    color: #6300B3;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin: 10px;
+    position: relative;
+    top: 10px;
+    left: 20px;
+  }
+  
+  .resume-dropdown-menu button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+  }
+  
+  .resume-dropdown-menu button::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    width: 23%;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .resume-form {
+      margin: 0 10px;
+    }
+  }
+
+  .resume-container {
+    position: relative; 
+  }
+  
+  .go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    background-color: #6300b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000; /* Ensure the button is above other content */
+  }
+  
+  .go-back-button:hover {
+    background-color: #6300b3;
+  }
+  
+  .resume-view {
+    padding: 20px; /* Add padding for spacing */
+  }

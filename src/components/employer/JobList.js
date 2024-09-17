@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../config/api';
 import '../Styles/JobList.css';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const JobList = () => {
@@ -13,7 +14,6 @@ const JobList = () => {
   const [applicants, setApplicants] = useState([]);
   const [statusUpdate, setStatusUpdate] = useState({});
   const [applicantStatuses, setApplicantStatuses] = useState({});
-  const [resumeDetails, setResumeDetails] = useState(null); // State to hold resume data
 
   useEffect(() => {
     fetchJobs();
@@ -65,13 +65,10 @@ const JobList = () => {
     }));
   };
 
-  const handleViewResume = async (userId) => {
-    try {
-      const response = await api.get(`/resumes/user/${userId}`); // API call to get resume details
-      setResumeDetails(response.data);
-    } catch (error) {
-      console.error('Error fetching resume:', error);
-    }
+  const navigate = useNavigate();
+
+  const handleViewResume = (userId) => {
+    navigate(`/viewResume/${userId}`);
   };
 
   const handleUpdateStatus = async (userId, jobId) => {
@@ -180,12 +177,16 @@ const JobList = () => {
                     <td>
                       <button onClick={() => handleViewResume(applicant.userId)}>View Resume</button>
                     </td>
-                    <td>{applicantStatuses[applicant.userId] || "Pending"}</td>
+                    <td>
+                      <span className={`status ${applicantStatuses[applicant.userId] || 'APPLIED'}`}>
+                        {applicantStatuses[applicant.userId] || 'Pending'}
+                      </span>
+                    </td>
                     <td>
                       {applicantStatuses[applicant.userId] !== 'WITHDRAWN' && (
                         <>
                           <select
-                            value={statusUpdate[applicant.userId] || applicantStatuses[applicant.userId] || "Pending"}
+                            value={statusUpdate[applicant.userId] || applicantStatuses[applicant.userId] || 'Pending'}
                             onChange={(e) => handleStatusChange(applicant.userId, e.target.value)}
                           >
                             <option value="REJECTED">Rejected</option>
@@ -204,40 +205,6 @@ const JobList = () => {
               )}
             </tbody>
           </table>
-
-          {resumeDetails && (
-            <div id="resume-modal">
-              <h3>Resume Details for {resumeDetails.user.firstName} {resumeDetails.user.lastName}</h3>
-              <p>Email: {resumeDetails.user.email}</p>
-              <p>Contact Number: {resumeDetails.user.contactNumber}</p>
-              <p>Address: {resumeDetails.user.address}</p>
-              <h4>Skills</h4>
-              <ul>
-                {resumeDetails.skills.map((skill) => (
-                  <li key={skill.skillId}>{skill.skillName}: {skill.skillDescription}</li>
-                ))}
-              </ul>
-              <h4>Education</h4>
-              <ul>
-                {resumeDetails.education.map((edu) => (
-                  <li key={edu.educationId}>{edu.degree} from {edu.institution} ({edu.startYear} - {edu.endYear})</li>
-                ))}
-              </ul>
-              <h4>Experience</h4>
-              <ul>
-                {resumeDetails.experience.map((exp) => (
-                  <li key={exp.experienceId}>{exp.jobPosition} at {exp.officeName} ({new Date(exp.startDate).toLocaleDateString()} - {exp.endDate ? new Date(exp.endDate).toLocaleDateString() : 'Present'})</li>
-                ))}
-              </ul>
-              <h4>Languages</h4>
-              <ul>
-                {resumeDetails.languages.map((lang) => (
-                  <li key={lang.languageId}>{lang.languageName} - {lang.languageProficiency}</li>
-                ))}
-              </ul>
-              <button className="close-resume-btn" onClick={() => setResumeDetails(null)}>Close Resume</button>
-            </div>
-          )}
         </div>
       )}
     </div>
