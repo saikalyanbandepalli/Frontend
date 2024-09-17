@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../config/api'; 
 import { useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import "../Styles/ResumeForm.css";
 
 const ResumeForm = () => {
@@ -16,39 +16,37 @@ const ResumeForm = () => {
   });
 
   const userIdd = useSelector((state) => state.jobseeker.jobseekerId);
-  const [mode, setMode] = useState('create'); // Default to 'create'
+  const [mode, setMode] = useState('create'); 
   const [userId, setUserId] = useState(userIdd); 
   const [loading, setLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [resumeExists, setResumeExists] = useState(false); // New state to check if resume exists
-  const [userName,setUserName] =  useState('');
-  const [email,setEmail] =  useState('');
-  const [contactNumber,setContactNumber] =  useState('');
-  const [address,setAddress] =  useState('');
+  const [resumeExists, setResumeExists] = useState(false); 
+  const [userName, setUserName] =  useState('');
+  const [email, setEmail] =  useState('');
+  const [contactNumber, setContactNumber] =  useState('');
+  const [address, setAddress] =  useState('');
 
   console.log(userName);
   console.log(email);
-  
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (mode === 'view' || mode === 'update') {
       setLoading(true);
-      axios.get(`http://localhost:8080/api/resumes/user/${userId}`)
+      api.get(`/resumes/user/${userId}`)
         .then(response => {
           setFormData(response.data);
-          setResumeExists(true); // Set resumeExists to true if resume data is fetched
+          setResumeExists(true); 
           setLoading(false);
         })
         .catch(error => {
           console.error('Error fetching the resume:', error);
-          setResumeExists(false); // Set resumeExists to false if error occurs
+          setResumeExists(false); 
           setLoading(false);
         });
     } else if (mode === 'create') {
-      // Check if resume exists when switching to 'create' mode
-      axios.get(`http://localhost:8080/api/resumes/user/${userId}`)
+      api.get(`/resumes/user/${userId}`)
         .then(response => {
           if (response.data && response.data.skills.length) {
             setUserName(response.data.user.userName);
@@ -97,7 +95,7 @@ const ResumeForm = () => {
 
   const calculateExperience = (startDate, endDate) => {
     const start = new Date(startDate);
-    const end = endDate ? new Date(endDate) : new Date(); // Use current date if endDate is not provided
+    const end = endDate ? new Date(endDate) : new Date(); 
     const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
     const years = Math.floor(totalMonths / 12);
     const months = totalMonths % 12;
@@ -106,8 +104,8 @@ const ResumeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const url = `http://localhost:8080/api/resumes/user/${userId}`;
-    const request = mode === 'create' ? axios.post(url, formData) : axios.put(url, formData);
+    const url = `/resumes/user/${userId}`;
+    const request = mode === 'create' ? api.post(url, formData) : api.put(url, formData);
     
     request
       .then(response => {
@@ -272,9 +270,9 @@ const ResumeForm = () => {
                   onChange={(e) => handleInputChange(e, 'experience', index, 'endDate')}
                   disabled={mode === 'view'}
                 />
-                {mode !== 'view' && (
-                  <p>Experience: {years} years and {months} months</p>
-                )}
+                <p>
+                  Duration: {years} years {months} months
+                </p>
               </div>
             );
           })}
@@ -311,7 +309,7 @@ const ResumeForm = () => {
 
           {mode !== 'view' && (
             <button type="submit" className='submit-button'>
-              {mode === 'create' ? 'Create Resume' : 'Update Resume'}
+              {mode === 'create' ? 'Create' : 'Update'} Resume
             </button>
           )}
         </form>
@@ -319,7 +317,6 @@ const ResumeForm = () => {
     </div>
   );
 };
-
 
 const ResumeView = ({ data }) => {
   const { formData, userName, email, contactNumber, address } = data;
