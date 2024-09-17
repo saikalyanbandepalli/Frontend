@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../config/api'; 
-import '../Styles/JobList.css'; 
+import api from '../../config/api';
+import '../Styles/JobList.css';
 import { useSelector } from 'react-redux';
 
 const JobList = () => {
@@ -11,8 +11,9 @@ const JobList = () => {
   const [jobsPerPage] = useState(5);
   const [selectedJob, setSelectedJob] = useState(null);
   const [applicants, setApplicants] = useState([]);
-  const [statusUpdate, setStatusUpdate] = useState({}); 
-  const [applicantStatuses, setApplicantStatuses] = useState({}); 
+  const [statusUpdate, setStatusUpdate] = useState({});
+  const [applicantStatuses, setApplicantStatuses] = useState({});
+  const [resumeDetails, setResumeDetails] = useState(null); // State to hold resume data
 
   useEffect(() => {
     fetchJobs();
@@ -49,7 +50,7 @@ const JobList = () => {
       try {
         const response = await api.get(`/jobs/user/${applicant.userId}/applications`);
         const applicationStatus = response.data.find(application => application.job.jobId === jobId)?.status;
-        statusMap[applicant.userId] = applicationStatus || 'Pending'; 
+        statusMap[applicant.userId] = applicationStatus || 'Pending';
       } catch (error) {
         console.error('Error fetching applicant status:', error);
       }
@@ -64,15 +65,20 @@ const JobList = () => {
     }));
   };
 
-  const handleViewResume = (userId) => {
-    console.log('Viewing resume for userId:', userId);
+  const handleViewResume = async (userId) => {
+    try {
+      const response = await api.get(`/resumes/user/${userId}`); // API call to get resume details
+      setResumeDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching resume:', error);
+    }
   };
 
   const handleUpdateStatus = async (userId, jobId) => {
     const updatedStatus = statusUpdate[userId];
     try {
       await api.put(`/applications/updateStatus/${userId}/${jobId}?status=${updatedStatus}`);
-      await fetchApplicantStatuses(applicants, jobId); 
+      await fetchApplicantStatuses(applicants, jobId);
     } catch (error) {
       console.error('Error updating status:', error);
     }
@@ -150,7 +156,7 @@ const JobList = () => {
         <div id="applicants-modal">
           <h2>Applicants for {selectedJob.jobTitle}</h2>
           <button className="close-modal-btn" onClick={() => setSelectedJob(null)}>Close</button>
-          
+
           <table id="applicants-table">
             <thead>
               <tr>
@@ -174,7 +180,7 @@ const JobList = () => {
                     <td>
                       <button onClick={() => handleViewResume(applicant.userId)}>View Resume</button>
                     </td>
-                    <td>{applicantStatuses[applicant.userId] || "Pending"}</td> 
+                    <td>{applicantStatuses[applicant.userId] || "Pending"}</td>
                     <td>
                       {applicantStatuses[applicant.userId] !== 'WITHDRAWN' && (
                         <>
@@ -198,6 +204,40 @@ const JobList = () => {
               )}
             </tbody>
           </table>
+
+          {resumeDetails && (
+            <div id="resume-modal">
+              <h3>Resume Details for {resumeDetails.user.firstName} {resumeDetails.user.lastName}</h3>
+              <p>Email: {resumeDetails.user.email}</p>
+              <p>Contact Number: {resumeDetails.user.contactNumber}</p>
+              <p>Address: {resumeDetails.user.address}</p>
+              <h4>Skills</h4>
+              <ul>
+                {resumeDetails.skills.map((skill) => (
+                  <li key={skill.skillId}>{skill.skillName}: {skill.skillDescription}</li>
+                ))}
+              </ul>
+              <h4>Education</h4>
+              <ul>
+                {resumeDetails.education.map((edu) => (
+                  <li key={edu.educationId}>{edu.degree} from {edu.institution} ({edu.startYear} - {edu.endYear})</li>
+                ))}
+              </ul>
+              <h4>Experience</h4>
+              <ul>
+                {resumeDetails.experience.map((exp) => (
+                  <li key={exp.experienceId}>{exp.jobPosition} at {exp.officeName} ({new Date(exp.startDate).toLocaleDateString()} - {exp.endDate ? new Date(exp.endDate).toLocaleDateString() : 'Present'})</li>
+                ))}
+              </ul>
+              <h4>Languages</h4>
+              <ul>
+                {resumeDetails.languages.map((lang) => (
+                  <li key={lang.languageId}>{lang.languageName} - {lang.languageProficiency}</li>
+                ))}
+              </ul>
+              <button className="close-resume-btn" onClick={() => setResumeDetails(null)}>Close Resume</button>
+            </div>
+          )}
         </div>
       )}
     </div>
