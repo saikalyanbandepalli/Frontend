@@ -3,14 +3,14 @@ import api from '../../config/api';
 import '../Styles/JobForm.css';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const JobForm = () => {
   const employerId = useSelector((state) => state.employer.employerId); // Get employerId from Redux store
 
   const [categories, setCategories] = useState([]);
   const [jobTitle, setJobTitle] = useState('');
-  const [companyName, setCompanyName] = useState(''); // Company name will be auto-populated
+  const [companyName, setCompanyName] = useState(''); 
   const [jobDescription, setJobDescription] = useState('');
   const [skillsRequired, setSkillsRequired] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -21,7 +21,6 @@ const JobForm = () => {
   const [postDate, setPostDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Fetch categories for the dropdown
   useEffect(() => {
     api.get('/categories/all')
       .then(response => setCategories(response.data))

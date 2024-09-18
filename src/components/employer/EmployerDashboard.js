@@ -45,6 +45,7 @@ const EmployerDashboard = () => {
   const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
+    fetchJobs();
     if (employerDetails) {
       console.log("Received user data:", employerDetails);
     } else {
@@ -59,7 +60,11 @@ const EmployerDashboard = () => {
   }, [employerDetails]);
 
   const handleLogout = () => {
-    navigate('/login');
+    const logout = window.confirm("Are you want to logout");
+    if(logout){
+      navigate('/login');
+    }
+    
   };
 
   const handleHomeClick = () => {
