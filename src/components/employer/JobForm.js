@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../config/api';
-import '../Styles/JobForm.css'; 
+import '../Styles/JobForm.css';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 const JobForm = () => {
-
-  const employerId = useSelector((state) => state.employer.employerId); 
-  console.log(employerId);
+  const employerId = useSelector((state) => state.employer.employerId); // Get employerId from Redux store
 
   const [categories, setCategories] = useState([]);
   const [jobTitle, setJobTitle] = useState('');
-  const [companyName, setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState(''); // Company name will be auto-populated
   const [jobDescription, setJobDescription] = useState('');
   const [skillsRequired, setSkillsRequired] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -23,11 +21,24 @@ const JobForm = () => {
   const [postDate, setPostDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  // Fetch categories for the dropdown
   useEffect(() => {
     api.get('/categories/all')
       .then(response => setCategories(response.data))
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
+
+  // Fetch employer details by employerId
+  useEffect(() => {
+    if (employerId) {
+      api.get(`/employers/${employerId}`)
+        .then(response => {
+          const employer = response.data;
+          setCompanyName(employer.companyName); // Set the companyName based on the API response
+        })
+        .catch(error => console.error('Error fetching employer details:', error));
+    }
+  }, [employerId]);
 
   const jobTypes = ['FULL_TIME', 'PART_TIME', 'CONTRACT'];
   const salaryRanges = [
@@ -67,8 +78,8 @@ const JobForm = () => {
         console.log('Job created successfully:', response.data);
         toast.success('Job created successfully!');
 
+        // Reset form fields after submission
         setJobTitle('');
-        setCompanyName('');
         setJobDescription('');
         setSkillsRequired('');
         setCategoryId('');
@@ -104,9 +115,8 @@ const JobForm = () => {
           <input
             type="text"
             id="companyName"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            required
+            value={companyName} // Auto-filled with employer's company name
+            readOnly // Disable manual input for company name
           />
         </div>
         <div>

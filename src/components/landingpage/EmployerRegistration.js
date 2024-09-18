@@ -14,6 +14,7 @@ const EmployerRegistration = () => {
     email: "",
     firstName: "",
     lastName: "",
+    companyName: "",
     contactNumber: "",
     address: ""
   });
@@ -34,6 +35,9 @@ const EmployerRegistration = () => {
     }
     if (!formData.lastName) {
       newErrors.lastName = "Last name is required";
+    }
+    if(!formData.companyName) {
+      newErrors.companyName = "Company name is required";
     }
     if (!formData.contactNumber.match(/^[0-9]{10}$/)) {
       newErrors.contactNumber = "Contact number must be 10 digits";
@@ -57,6 +61,7 @@ const EmployerRegistration = () => {
           password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          companyName: formData.companyName,
           contactNumber: formData.contactNumber,
           address: formData.address,
         };
@@ -166,6 +171,19 @@ const EmployerRegistration = () => {
                 id="lastName"
                 className="form-control"
                 value={formData.lastName}
+                onChange={handleInputChange}
+                required
+              />
+              {errors.lastName && <p className="error-message">{errors.companyName}</p>}
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Company Name</label>
+              <input
+                type="text"
+                name="companyName"
+                id="companyName"
+                className="form-control"
+                value={formData.companyName}
                 onChange={handleInputChange}
                 required
               />
