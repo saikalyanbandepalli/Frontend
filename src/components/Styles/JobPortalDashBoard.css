@@ -215,10 +215,6 @@ body {
   transition: transform 0.3s;
 }
 
-.company-logo:hover {
-  transform: rotate(360deg);
-}
-
 .job-card h3 {
   font-size: 22px;
   color: #333;
@@ -322,7 +318,7 @@ body {
   transition: transform 0.3s;
 }
 
-.profile-icon {
+.profile-icon-jobseeker {
   font-size: 2.5rem;
   color: #fff;
 }

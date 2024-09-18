@@ -82,10 +82,6 @@ body {
   transition: transform 0.3s;
 }
 
-.my-company-logo:hover {
-  transform: rotate(360deg);
-}
-
 .my-job-title {
   font-size: 1.1em;
   margin: 8px 0;
@@ -166,7 +162,7 @@ body {
   }
 }
 
-/* Keyframe animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;

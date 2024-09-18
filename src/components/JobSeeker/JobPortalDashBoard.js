@@ -29,6 +29,7 @@ const JobPortalDashBoard = () => {
   const [showAppliedJobs, setShowAppliedJobs] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
+  const [userName, setUserName] = useState('');
   const { userId } = useParams();
   const navigate = useNavigate();
   const [categorySuggestions, setCategorySuggestions] = useState([]);
@@ -114,8 +115,20 @@ const JobPortalDashBoard = () => {
       }
     };
 
+    const fetchUserDetails = async () => {
+      try{
+        const response = await api.get(`/users/${userId}`);
+        setUserName(response.data.firstName);
+        console.log(response.data.firstName);
+      }catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
     fetchJobs();
     fetchAppliedJobs();
+    fetchUserDetails();
+    
   }, [userId]);
 
   const filterJobs = () => {
@@ -240,7 +253,7 @@ const JobPortalDashBoard = () => {
           <div className="profile-info">
             <FontAwesomeIcon
               icon={faUserCircle}
-              className="profile-icon"
+              className="profile-icon-jobseeker"
               onClick={handleProfileClick}
             />
             <button
@@ -255,10 +268,10 @@ const JobPortalDashBoard = () => {
 
       <header className="job-portal-header">
         <h1>Find Your Dream Job Now!</h1>
-        {userDetails && (
-          <p><b>Welcome, <strong>{userDetails.userName}</strong>!</b></p>
-           )}
-           <p>Select a Job category and we'll show you relevant jobs for it!</p>
+        
+          <p><b>Welcome, <strong>{userName}</strong>!</b></p>
+           
+          <p>Select a Job category and we'll show you relevant jobs for it!</p>
       </header>
       <div className="job-search-section">
         <div className="input-group">
@@ -415,7 +428,7 @@ const JobPortalDashBoard = () => {
             <strong>FirstName:</strong> {userDetails.firstName}
           </p>
           <p>
-            <strong>LastName:</strong> {userDetails.Name}
+            <strong>LastName:</strong> {userDetails.lastName}
           </p>
           <p>
             <strong>Email:</strong> {userDetails.email}
