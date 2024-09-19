@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../config/api';
 import '../Styles/JobList.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -77,13 +79,16 @@ const JobList = () => {
     try {
       await api.put(`/applications/updateStatus/${userId}/${jobId}?status=${updatedStatus}`);
       await fetchApplicantStatuses(applicants, jobId);
+      
+      toast.success(`Status updated to ${updatedStatus} successfully!`);
     } catch (error) {
+      toast.error('Error updating status. Please try again.');
       console.error('Error updating status:', error);
     }
-  };
+  };  
 
   const paginate = (items = [], pageNumber, itemsPerPage) => {
-    if (!Array.isArray(items)) return [];  // Ensure items is an array
+    if (!Array.isArray(items)) return [];  
     const start = (pageNumber - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     return items.slice(start, end);
@@ -95,6 +100,7 @@ const JobList = () => {
   return (
     <div id="job-list-container">
       <h1 className="job-list-title">Job Listings</h1>
+      <ToastContainer />
 
       <table id="job-table">
         <thead>
