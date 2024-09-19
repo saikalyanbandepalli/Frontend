@@ -1,0 +1,61 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #6300b3;
+  padding: 0.5% 15px;
+  color: #fff;
+  margin-top: -1%;
+  margin-left: -1%;
+  margin-right: -1%;
+}
+
+.logo-image {
+  height: 40px;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.menu-item {
+  margin: 0;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.menu-link:hover {
+  color: #e0e0e0;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-icon1 {
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background-color: #fff;
+  border: none;
+  color: #6300b3;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* .logout-btn:hover {
+  background-color: #50048f;
+} */

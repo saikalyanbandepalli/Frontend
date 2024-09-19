@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/JobPortalDashBoard.css";
 import logo from "../images/revhire_logo.png";
+import api from "../../config/api";
+import { useParams, useNavigate } from "react-router-dom";
+// import JobSearchSection from "./JobSearchSection";
+import JobListings from "./JobListings";
+import JobDetailsCard from "./JobDetailsCard";
+import ProfileDetailsCard from "./ProfileDetailsCard";
+import Navbar from "./Navbar";
 import com1 from "../images/com1_valid.jpg";
 import com2 from "../images/com2_valid.jpg";
 import com3 from "../images/com3_valid.jpg";
@@ -9,11 +16,6 @@ import com5 from "../images/com5_valid.jpg";
 import com6 from "../images/com6_valid.jpg";
 import com7 from "../images/com7_valid.jpg";
 import com8 from "../images/com8_valid.jpg";
-import api1 from "../../config/api1";
-import api from "../../config/api";
-import { useParams, useNavigate } from "react-router-dom";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const JobPortalDashBoard = () => {
   const [categoryInput, setCategoryInput] = useState("");
@@ -29,7 +31,7 @@ const JobPortalDashBoard = () => {
   const [showAppliedJobs, setShowAppliedJobs] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState("");
   const { userId } = useParams();
   const navigate = useNavigate();
   const [categorySuggestions, setCategorySuggestions] = useState([]);
@@ -37,73 +39,21 @@ const JobPortalDashBoard = () => {
 
   const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
 
-  const handleCategoryChange = (e) => {
-    const value = e.target.value;
-    setCategoryInput(value);
-
-    if (value.length > 0) {
-      const filteredCategories = jobs
-        .map((job) => job.jobTitle)
-        .filter((category) =>
-          category.toLowerCase().includes(value.toLowerCase())
-        );
-      setCategorySuggestions([...new Set(filteredCategories)]);
-    } else {
-      setCategorySuggestions([]);
-    }
-  };
-
-  const handleCompanyChange = (e) => {
-    const value = e.target.value;
-    setCompanyInput(value);
-
-    if (value.length > 0) {
-      const filteredCompanies = jobs
-        .map((job) => job.companyName)
-        .filter((company) =>
-          company.toLowerCase().includes(value.toLowerCase())
-        );
-      setCompanySuggestions([...new Set(filteredCompanies)]);
-    } else {
-      setCompanySuggestions([]);
-    }
-  };
-
-  const getRandomLogo = () => {
-    const randomIndex = Math.floor(Math.random() * companyLogos.length);
-    return companyLogos[randomIndex];
-  };
-
-  const handleLogout = () => {
-    navigate("/login");
-  };
-
-  const handleProfileClick = async () => {
-    if (!showDetails) {
-      try {
-        const response = await api.get(`/users/${userId}`);
-        setUserDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    }
-    setShowDetails(!showDetails);
-  };
-
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await api1.get(`/jobs/not-applied/${userId}`);
+        const response = await api.get(`/jobs/not-applied/${userId}`);
         setJobs(response.data);
         setFilteredJobs(response.data);
       } catch (error) {
+        alert("Error fetching jobs:", error);
         console.error("Error fetching jobs:", error);
       }
     };
 
     const fetchAppliedJobs = async () => {
       try {
-        const response = await api1.get(`/jobs/user/${userId}/applications`);
+        const response = await api.get(`/jobs/user/${userId}/applications`);
         const appliedJobData = response.data.map((application) => ({
           ...application.job,
           status: application.status,
@@ -111,16 +61,17 @@ const JobPortalDashBoard = () => {
 
         setAppliedJobs(appliedJobData);
       } catch (error) {
+        alert("Error fetching applied jobs:", error);
         console.error("Error fetching applied jobs:", error);
       }
     };
 
     const fetchUserDetails = async () => {
-      try{
+      try {
         const response = await api.get(`/users/${userId}`);
-        setUserName(response.data.firstName);
-        console.log(response.data.firstName);
-      }catch (error) {
+        setUserName(response.data.firstName + " " + response.data.lastName);
+      } catch (error) {
+        alert("Error fetching user details:", error);
         console.error("Error fetching user details:", error);
       }
     };
@@ -128,7 +79,6 @@ const JobPortalDashBoard = () => {
     fetchJobs();
     fetchAppliedJobs();
     fetchUserDetails();
-    
   }, [userId]);
 
   const filterJobs = () => {
@@ -172,16 +122,60 @@ const JobPortalDashBoard = () => {
     setShowAllJobs(false);
   };
 
-  const handleKnowMoreClick = (job) => {
-    setSelectedJob(job);
-    setShowJobDetails(true);
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setCategoryInput(value);
+
+    if (value.length > 0) {
+      const filteredCategories = jobs
+        .map((job) => job.jobTitle)
+        .filter((category) =>
+          category.toLowerCase().includes(value.toLowerCase())
+        );
+      setCategorySuggestions([...new Set(filteredCategories)]);
+    } else {
+      setCategorySuggestions([]);
+    }
+  };
+
+  const handleCompanyChange = (e) => {
+    const value = e.target.value;
+    setCompanyInput(value);
+
+    if (value.length > 0) {
+      const filteredCompanies = jobs
+        .map((job) => job.companyName)
+        .filter((company) =>
+          company.toLowerCase().includes(value.toLowerCase())
+        );
+      setCompanySuggestions([...new Set(filteredCompanies)]);
+    } else {
+      setCompanySuggestions([]);
+    }
+  };
+
+  const handleProfileClick = async () => {
+    if (!showDetails) {
+      try {
+        const response = await api.get(`/users/${userId}`);
+        setUserDetails(response.data);
+      } catch (error) {
+        alert("Error fetching user details:", error);
+        console.error("Error fetching user details:", error);
+      }
+    }
+    setShowDetails(!showDetails);
   };
 
   const handleApplyClick = async () => {
     if (selectedJob) {
       try {
         const jobId = selectedJob.jobId;
-        await api1.post(`jobs/${jobId}/apply/${userId}`, null, {
+        await api.post(`jobs/${jobId}/apply/${userId}`, null, {
           params: {
             jobid: jobId,
             jobSeekerId: userId,
@@ -221,58 +215,41 @@ const JobPortalDashBoard = () => {
 
   return (
     <div className="job-portal-container">
-      <nav className="navbar">
-        <div className="navbar-logo">
-          <img src={logo} alt="Job Portal Logo" className="jobportlogo" />
-        </div>
-        <ul className="navbar-links">
-          <li>
-            <a href={`/JobPortal/jobseeker/${userId}`}>Home</a>
-          </li>
-          <li>
-            <a onClick={showAllJobsHandler} className="all-jobs-button">
-              All Jobs
-            </a>
-          </li>
-          <li>
-            <a onClick={() => navigate(`/JobPortal/myjobs/${userId}`)}>
-              My Jobs
-            </a>
-          </li>
-          <li>
-            <a onClick={() => navigate(`/ResumeForm`)}>Resume</a>
-          </li>
-          <li>
-            <a onClick={() => navigate(`/ResetPassword`)}>
-              ResetPassword
-              </a>
-          </li>
-        </ul>
-
-        <div className="top-navbar-profile1">
-          <div className="profile-info">
-            <FontAwesomeIcon
-              icon={faUserCircle}
-              className="profile-icon-jobseeker"
-              onClick={handleProfileClick}
-            />
-            <button
-              className="Jobportaldashboard-logout-button"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar
+        logo={logo}
+        handleLogout={handleLogout}
+        handleProfileClick={handleProfileClick}
+        navigate={navigate}
+        userId={userId}
+        showAllJobsHandler={showAllJobsHandler}
+      />
 
       <header className="job-portal-header">
         <h1>Find Your Dream Job Now!</h1>
-        
-          <p><b>Welcome, <strong>{userName}</strong>!</b></p>
-           
-          <p>Select a Job category and we'll show you relevant jobs for it!</p>
+        <p>
+          <b>
+            Welcome, <strong>{userName} </strong>!
+          </b>
+        </p>
+        <p>Select a Job category and we'll show you relevant jobs for it!</p>
       </header>
+
+      {/* <JobSearchSection
+        categoryInput={categoryInput}
+        companyInput={companyInput}
+        jobTypeInput={jobTypeInput}
+        salaryRangeInput={salaryRangeInput}
+        handleCategoryChange={(e) => setCategoryInput(e.target.value)}
+        handleCompanyChange={(e) => setCompanyInput(e.target.value)}
+        handleJobTypeChange={(e) => setJobTypeInput(e.target.value)}
+        handleSalaryRangeChange={(e) => setSalaryRangeInput(e.target.value)}
+        filterJobs={filterJobs}
+        categorySuggestions={categorySuggestions}
+        companySuggestions={companySuggestions}
+        handleSuggestionClick={handleSuggestionClick}
+        handleCompanySuggestionClick={handleCompanySuggestionClick}
+      /> */}
+
       <div className="job-search-section">
         <div className="input-group">
           <input
@@ -346,100 +323,32 @@ const JobPortalDashBoard = () => {
         <button onClick={filterJobs}>Search</button>
       </div>
 
-      <div className="job-listings">
-        {displayedJobs.map((job, index) => (
-          <div key={index} className="job-card">
-            <img
-              src={getRandomLogo()}
-              alt="Company Logo"
-              className="company-logo"
-            />
-            <h3>{job.jobTitle}</h3>
-            <p>Company: {job.companyName}</p>
-            <p>Job Type: {job.jobType}</p>
-            <p>Salary Range: {job.salaryRange}</p>
-            <p>Experience: {job.experienceRequired}</p>
-
-            {isJobApplied(job.jobId) ? (
-              <button
-                className="apply-button"
-                onClick={() => handleKnowMoreClick(job)}
-              >
-                Applied
-              </button>
-            ) : (
-              <button
-                onClick={() => handleKnowMoreClick(job)}
-                className="knowmore"
-              >
-                Know More
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+      <JobListings
+        displayedJobs={displayedJobs}
+        getRandomLogo={() =>
+          companyLogos[Math.floor(Math.random() * companyLogos.length)]
+        }
+        handleKnowMoreClick={(job) => {
+          setSelectedJob(job);
+          setShowJobDetails(true);
+        }}
+        isJobApplied={isJobApplied}
+      />
 
       {showJobDetails && selectedJob && (
-        <div className="job-details-card">
-          <button onClick={handleCloseJobDetails} className="close-button">
-            Close
-          </button>
-          <h2>{selectedJob.jobTitle}</h2>
-          <p>
-            <strong>Company:</strong> {selectedJob.companyName}
-          </p>
-          <p>
-            <strong>Description:</strong> {selectedJob.jobDescription}
-          </p>
-          <p>
-            <strong>Category:</strong> {selectedJob.category.categoryName}
-          </p>
-          <p>
-            <strong>Salary:</strong> {selectedJob.salaryRange}
-          </p>
-          <p>
-            <strong>Experience Required:</strong>{" "}
-            {selectedJob.experienceRequired}
-          </p>
-          <p>
-            <strong>Location:</strong> {selectedJob.location}
-          </p>
-          <p>
-            <strong>End Date:</strong>{" "}
-            {new Date(selectedJob.endDate).toLocaleDateString()}
-          </p>
-          {!isJobApplied(selectedJob.jobId) && (
-            <button className="apply-button" onClick={handleApplyClick}>
-              Apply Now
-            </button>
-          )}
-        </div>
+        <JobDetailsCard
+          job={selectedJob}
+          handleApplyClick={handleApplyClick}
+          handleClose={handleCloseJobDetails}
+          isJobApplied={isJobApplied}
+        />
       )}
+
       {showDetails && userDetails && (
-        <div className="profile-details-card">
-          <button onClick={handleProfileClick} className="close-button11">
-            Close
-          </button>
-          <h2>User Profile</h2>
-          <p>
-            <strong>Name:</strong> {userDetails.userName}
-          </p>
-          <p>
-            <strong>FirstName:</strong> {userDetails.firstName}
-          </p>
-          <p>
-            <strong>LastName:</strong> {userDetails.lastName}
-          </p>
-          <p>
-            <strong>Email:</strong> {userDetails.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {userDetails.contactNumber}
-          </p>
-          <p>
-            <strong>Address:</strong> {userDetails.address}
-          </p>
-        </div>
+        <ProfileDetailsCard
+          userDetails={userDetails}
+          handleClose={handleProfileClick}
+        />
       )}
       <footer className="job-portal-footer">
         <p>&copy; 2024 Online Job Portal. All rights reserved.</p>
