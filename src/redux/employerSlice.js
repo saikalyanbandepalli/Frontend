@@ -1,8 +1,7 @@
-// src/redux/employerSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  employerId: null, // Initial state for employer
+  employerId: null, 
 };
 
 const employerSlice = createSlice({
@@ -10,10 +9,10 @@ const employerSlice = createSlice({
   initialState,
   reducers: {
     setEmployerId: (state, action) => {
-      state.employerId = action.payload; // Set employer ID
+      state.employerId = action.payload; 
     },
     clearEmployerId: (state) => {
-      state.employerId = null; // Clear employer ID on logout
+      state.employerId = null; 
     },
   },
 });

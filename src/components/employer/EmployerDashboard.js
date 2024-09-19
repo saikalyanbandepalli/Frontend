@@ -127,10 +127,10 @@ const EmployerDashboard = () => {
   const fetchJobs = async () => {
     try {
       const response = await api.get(`/jobs/employer/${employerId}`);
-      console.log('Fetched Jobs:', response.data);
-      setJobs(response.data);
+      setJobs(response.data || []); // Ensure jobs is an array
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      setJobs([]); // Set an empty array in case of an error
     }
   };
 
@@ -162,11 +162,13 @@ const EmployerDashboard = () => {
     setPreviewImage(null);
   };
 
-  const filteredJobs = jobs.filter(job =>
-    (job.jobTitle && job.jobTitle.toLowerCase().includes(searchTitle.toLowerCase())) &&
-    (job.experienceRequired && job.experienceRequired.toLowerCase().includes(searchExperience.toLowerCase())) &&
-    (job.salaryRange && job.salaryRange.toLowerCase().includes(searchSalary.toLowerCase()))
-  );
+  const filteredJobs = Array.isArray(jobs)
+    ? jobs.filter(job =>
+        (job.jobTitle && job.jobTitle.toLowerCase().includes(searchTitle.toLowerCase())) &&
+        (job.experienceRequired && job.experienceRequired.toLowerCase().includes(searchExperience.toLowerCase())) &&
+        (job.salaryRange && job.salaryRange.toLowerCase().includes(searchSalary.toLowerCase()))
+      )
+    : [];
 
   return (
     <div className="employerdashboard-container">

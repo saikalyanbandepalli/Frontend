@@ -50,7 +50,7 @@ const ViewResume = () => {
         </div>
 
         <h3 className="summary">Summary</h3>
-        <p>{summary.summaryText}</p>
+        <p>{summary ? summary.summaryText : 'No summary available'}</p>
 
         <h3 className="education">Education</h3>
         {education.map((edu, index) => (
