@@ -161,9 +161,8 @@ body {
 
 .Jobportaldashboard-logout-button:hover {
   background-color: #d02a2a; /* Slightly darker shade on hover */
-  transform: translateY(-5px); 
+  transform: translateY(-5px);
 }
-
 
 /* Job Listings */
 .job-listings {
@@ -275,9 +274,10 @@ body {
 
 .apply-button {
   background-color: #6300b3;
-  color: white;
-  font-weight: bolder;
+  color: #fff;
   padding: 2%;
+  border-radius: 5%;
+  margin-top: 4%;
   transition: background-color 0.3s;
 }
 
@@ -290,6 +290,7 @@ body {
   font-weight: bolder;
   color: white;
   padding: 1%;
+  margin-top: 4%;
   transition: background-color 0.3s;
 }
 
@@ -319,7 +320,7 @@ body {
 }
 
 .profile-icon-jobseeker {
-  font-size: 2.5rem;
+  font-size: 5rem;
   color: #fff;
 }
 
@@ -384,4 +385,3 @@ body {
     opacity: 1;
   }
 }
-
