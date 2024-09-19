@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api1 from "../../config/api1";
+import api from "../../config/api";
 import "../Styles/MyJobs.css";
 
 import com1 from "../images/com1_valid.jpg";
@@ -17,21 +17,21 @@ const companyLogos = [com1, com2, com3, com4, com5, com6, com7, com8];
 const MyJobs = () => {
   const { userId } = useParams();
   const [jobs, setJobs] = useState([]);
+  const [withdrawing, setWithdrawing] = useState(false);
   const navigate = useNavigate();
 
-  // Function to get a random logo
   const getRandomLogo = () => {
     const randomIndex = Math.floor(Math.random() * companyLogos.length);
     return companyLogos[randomIndex];
   };
 
   useEffect(() => {
-    api1
+    api
       .get(`/jobs/user/${userId}/applications`)
       .then((response) => {
         const jobsWithLogos = response.data.map((job) => ({
           ...job,
-          logo: getRandomLogo(), // Assign random logo to each job
+          logo: getRandomLogo(),
         }));
         setJobs(jobsWithLogos);
       })
@@ -50,20 +50,23 @@ const MyJobs = () => {
     );
 
     if (isConfirmed) {
-      api1
+      setWithdrawing(true);
+      api
         .post(`/jobs/${jobId}/withdraw/${userId}`)
         .then((response) => {
           console.log("Withdrawn successfully:", response.data);
           setJobs((prevJobs) =>
             prevJobs.map((job) =>
-              job.applicationId === jobId
-                ? { ...job, status: "WITHDRAWN" }
-                : job
+              job.job.jobId === jobId ? { ...job, status: "WITHDRAWN" } : job
             )
           );
         })
         .catch((error) => {
+          alert("Error: " + error.message);
           console.error("Error withdrawing application:", error);
+        })
+        .finally(() => {
+          setWithdrawing(false);
         });
     }
   };
@@ -122,12 +125,11 @@ const MyJobs = () => {
                   </button>
                   <button
                     className="my-status-button withdraw"
-                    onClick={() =>
-                      handleWithdrawClick(application.applicationId)
-                    }
-                    style={{ marginLeft: "10px" }} // Adding space between buttons
+                    onClick={() => handleWithdrawClick(application.job.jobId)}
+                    style={{ marginLeft: "10px" }}
+                    disabled={withdrawing}
                   >
-                    Withdraw
+                    {withdrawing ? "Withdrawing..." : "Withdraw"}
                   </button>
                 </div>
               )}
