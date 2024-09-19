@@ -1,8 +1,7 @@
-// src/redux/jobseekerSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  jobseekerId: null, // Initial state for jobseeker
+  jobseekerId: null, 
 };
 
 const jobseekerSlice = createSlice({
@@ -10,10 +9,10 @@ const jobseekerSlice = createSlice({
   initialState,
   reducers: {
     setJobseekerId: (state, action) => {
-      state.jobseekerId = action.payload; // Set jobseeker ID
+      state.jobseekerId = action.payload; 
     },
     clearJobseekerId: (state) => {
-      state.jobseekerId = null; // Clear jobseeker ID on logout
+      state.jobseekerId = null;
     },
   },
 });

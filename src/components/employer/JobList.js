@@ -22,9 +22,10 @@ const JobList = () => {
   const fetchJobs = async () => {
     try {
       const response = await api.get(`/jobs/employer/${employerId}`);
-      setJobs(response.data);
+      setJobs(response.data || []); 
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      setJobs([]);  
     }
   };
 
@@ -81,11 +82,12 @@ const JobList = () => {
     }
   };
 
-  const paginate = (items, pageNumber, itemsPerPage) => {
+  const paginate = (items = [], pageNumber, itemsPerPage) => {
+    if (!Array.isArray(items)) return [];  // Ensure items is an array
     const start = (pageNumber - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     return items.slice(start, end);
-  };
+  };  
 
   const totalPages = Math.ceil(jobs.length / jobsPerPage);
   const paginatedJobs = paginate(jobs, currentPage, jobsPerPage);
@@ -114,7 +116,8 @@ const JobList = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedJobs.map((job, index) => (
+        {paginatedJobs.length > 0 ? (
+          paginatedJobs.map((job, index) => (
             <tr key={job.jobId}>
               <td>{(currentPage - 1) * jobsPerPage + index + 1}</td>
               <td>{job.jobTitle}</td>
@@ -133,7 +136,12 @@ const JobList = () => {
                 <button className="view-applicants-btn" onClick={() => handleViewApplicants(job.jobId)}>View Applicants</button>
               </td>
             </tr>
-          ))}
+        ))
+      ) : (
+          <tr>
+            <td colSpan="14">No jobs available.</td>
+          </tr>
+        )}
         </tbody>
       </table>
 
