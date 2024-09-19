@@ -6,7 +6,7 @@ import '../Styles/ResumeView.css';
 const ViewResume = () => {
   const { userId } = useParams();
   const [resumeDetails, setResumeDetails] = useState(null);
-  const navigate = useNavigate(); // Import useNavigate for navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -29,10 +29,10 @@ const ViewResume = () => {
 
   const calculateExperience = (startDate, endDate) => {
     const start = new Date(startDate);
-    const end = new Date(endDate);
-    const diff = end - start;
-    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-    const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+    const end = endDate ? new Date(endDate) : new Date(); 
+    const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
     return { years, months };
   };
 

@@ -46,6 +46,7 @@ const EmployerDashboard = () => {
 
   useEffect(() => {
     fetchJobs();
+    console.log(employerDetails);
     if (employerDetails) {
       console.log("Received user data:", employerDetails);
     } else {

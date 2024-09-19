@@ -123,7 +123,7 @@ const MyJobs = () => {
                   <button
                     className="my-status-button withdraw"
                     onClick={() =>
-                      handleWithdrawClick(application.applicationId)
+                      handleWithdrawClick(application.job.jobId)
                     }
                     style={{ marginLeft: "10px" }} // Adding space between buttons
                   >
