@@ -84,6 +84,7 @@
 .profile-picture-container {
     text-align: center;
     margin-bottom: 10px;
+   
 }
 
 .profile-picture {
@@ -138,6 +139,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 99;
 }
 
 .profile-box {
@@ -267,6 +269,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
+
+.employerdashboard-footer {
+    text-align: center;
+    padding: 10px 0;
+    color: white; 
+}  
 
 @media (max-width: 768px) {
     .employerdashboard-top-navbar {
