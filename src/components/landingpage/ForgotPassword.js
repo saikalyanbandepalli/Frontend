@@ -10,12 +10,12 @@ import api from "../../config/api";
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ email: "", otp: "", newPassword: "" });
-  const [userType, setUserType] = useState("job_seeker"); // Default userType is 'employer'
+  const [userType, setUserType] = useState("job_seeker"); 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
 
-  // Function to get API URL based on userType
+  
   const getApiUrl = (path) => {
     return userType === "job_seeker" ? `/users${path}` : `/employers${path}`;
   };
@@ -83,7 +83,7 @@ const ForgotPassword = () => {
           }
         });
         toast.success("Password reset successfully! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 3000); // Delay for toast display
+        setTimeout(() => navigate("/login"), 3000); 
       } catch (error) {
         setApiError("Failed to reset password. Please try again.");
         toast.error("Failed to reset password.");
@@ -99,12 +99,12 @@ const ForgotPassword = () => {
   };
 
   const handleUserTypeChange = (e) => {
-    setUserType(e.target.value); // Update the selected user type
+    setUserType(e.target.value); 
   };
 
   return (
     <div className="forgot-password-container">
-      <ToastContainer /> {/* ToastContainer for displaying toasts */}
+      <ToastContainer /> 
       <nav className="forgot-password-navbar navbar navbar-expand-lg fixed-top">
         <a className="navbar-brand" href="#">
           RevHire Forgot Password
@@ -122,7 +122,6 @@ const ForgotPassword = () => {
         <div className="forgot-password-form-container">
           <img src={heroImage} alt="Hero" className="img-fluid forgot-password-hero-image" />
 
-          {/* User Type Dropdown */}
           <div className="form-group">
             <label htmlFor="userType">Select User Type</label>
             <select
