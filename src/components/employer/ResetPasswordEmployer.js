@@ -46,20 +46,27 @@ const ResetPasswordEmployer = () => {
         });
         if (response.status === 200) {
           toast.success("Password has been successfully reset.", {
-            position: "top-right", 
-            autoClose: 3000, 
+            position: "top-right",
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
           });
           
+          setFormData({
+            email: "",
+            oldPassword: "",
+            newPassword: ""
+          });
+          setErrors({});
+          setApiError("");
         }
       } catch (error) {
         toast.error("An error occurred. Please try again.");
       }
     }
-  };
+  };  
 
   const handleInputChange = (e) => {
     setFormData({
@@ -70,9 +77,9 @@ const ResetPasswordEmployer = () => {
 
   return (
     <div className="reset-password-container">
-      <nav className="login-navbar navbar navbar-expand-lg fixed-top">
-        <a className="navbar-brand" href="#">
-          RevHire Reset Password
+      <nav className="employer-reset-navbar">
+        <a className="employer-reset-navbar-brand" href="#">
+          RevHire Employer Password Reset
         </a>
       </nav>
 

@@ -277,6 +277,9 @@ const EmployerDashboard = () => {
           </div>
         )}
       </div>
+      <footer className="employerdashboard-footer" style={{ backgroundColor: '#6300b3' }}>
+        <p>&copy; 2024 Online Job Portal. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
