@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"; // Import useDispatch
+import { useDispatch } from "react-redux"; 
 import logo from "../images/revhire_logo.png";
 import heroImage from "../images/landingpage_demo.png";
 import "../Styles/LoginPage.css";
 import api from "../../config/api";
-import { setEmployerId } from "../../redux/employerSlice"; // Import employer actions
-import { setJobseekerId } from "../../redux/jobseekerSlice"; // Import jobseeker actions
-
+import { setEmployerId } from "../../redux/employerSlice";
+import { setJobseekerId } from "../../redux/jobseekerSlice"; 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -17,7 +16,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize useDispatch
+  const dispatch = useDispatch(); 
 
   const validateForm = () => {
     const newErrors = {};
@@ -40,9 +39,11 @@ const LoginPage = () => {
             ? "/users/login"
             : "/employers/login";
 
+        console.log(formData.email,formData.password);
         const response = await api.post(loginEndpoint, {
           email: formData.email,
           password: formData.password,
+          
         });
 
         if (response.status === 200) {
@@ -59,7 +60,6 @@ const LoginPage = () => {
               setApiError("Unexpected user role. Please try again.");
             }
           } else {
-            // Dispatch action to save employer info in Redux
             dispatch(setEmployerId(userData.empolyerId));
             console.log(userData.empolyerId);
             navigate("/EmployerDashboard", { state: { user: userData } });

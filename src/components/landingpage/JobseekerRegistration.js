@@ -58,6 +58,7 @@ const JobseekerRegistration = () => {
           }, 5000);
         }
       } catch (error) {
+        console.log("Error occured during registeration", error);
         toast.error("An error occurred during registration. Please try again.");
       }
     }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8081/api/",
+  baseURL: "https://revhire-gkcnc4dvbqchbya0.southindia-01.azurewebsites.net/api/",
 });
 
 export default api;
