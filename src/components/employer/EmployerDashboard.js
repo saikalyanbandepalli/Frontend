@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../Styles/EmployerDashboard.css";
 import logo from "../images/revhire_logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faEdit } from "@fortawesome/free-solid-svg-icons";
+// import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import api from "../../config/api";
 import JobForm from "./JobForm";
 import CategoryManager from "./CategoryManager";
@@ -43,6 +44,13 @@ const EmployerDashboard = () => {
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedEmployerDetails, setEditedEmployerDetails] = useState({
+    employerName: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  });
 
   useEffect(() => {
     fetchJobs();
@@ -117,6 +125,12 @@ const EmployerDashboard = () => {
     try {
       const response = await api.get(`/employers/${employerId}`);
       setEmployerDetails(response.data);
+      setEditedEmployerDetails({
+        employerName: response.data.employerName,
+        email: response.data.email,
+        contactNumber: response.data.contactNumber,
+        address: response.data.address,
+      });
       setError(null);
       setProfileImage(response.data.profilePictureUrl);
     } catch (err) {
@@ -160,6 +174,32 @@ const EmployerDashboard = () => {
   const handleDeleteImage = () => {
     setProfileImage(null);
     setPreviewImage(null);
+  };
+
+    // Handle input changes for editing profile
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setEditedEmployerDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: value,
+      }));
+    };
+
+      // Handle profile update
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.put(`/employers/update/${employerId}`, editedEmployerDetails);
+      setEmployerDetails(response.data); // Update the state with new data
+      setIsEditing(false); // Exit edit mode
+      setShowDetails(false); // Close profile modal
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
   const filteredJobs = Array.isArray(jobs)
@@ -249,33 +289,103 @@ const EmployerDashboard = () => {
         {showResetPassword && <ResetPasswordForm />}
         
         {showDetails && (
-          <div className="profile-overlay">
-            <div className="profile-box">
-              <span className="profile-close" onClick={() => setShowDetails(false)}>&times;</span>
-              {employerDetails && (
-                <>
-                  <div className="profile-picture-container">
-                    <img
-                      src={previewImage || employerDetails.profilePictureUrl || 'https://via.placeholder.com/120?text=Profile+Image'}
-                      alt="Profile"
-                      className="profile-picture"
-                    />
-                    <input type="file" accept="image/*" onChange={handleProfileImageChange} />
-                    {profileImage && <button onClick={handleDeleteImage}>Delete Image</button>}
-                  </div>
-                  <div className="profile-details">
-                    <h2>{employerDetails.employerName}'s profile</h2>
-                    <p><strong>Name:</strong> {employerDetails.employerName}</p>
-                  <p><strong>Email:</strong> {employerDetails.email}</p>
-                  <p><strong>Contact Number:</strong> {employerDetails.contactNumber}</p>
-                  <p><strong>Address:</strong> {employerDetails.address}</p>
-
-                  </div>
-                </>
-              )}
-            </div>
+        <div id="employer-profile-overlay">
+          <div className="employer-profile-box">
+            <span className="employer-profile-close" onClick={() => setShowDetails(false)}>
+              &times;
+            </span>
+            {employerDetails && (
+              <>
+                <div className="employer-profile-picture-container">
+                  {employerDetails.profilePictureUrl ? (
+                   <img
+                     src={employerDetails.profilePictureUrl}
+                     alt="Profile"
+                     className="profile-picture"
+                   />
+                  ) : (
+                     <FontAwesomeIcon
+                     icon={faUserCircle}
+                     className="default-profile-icon"
+                     size="6x" 
+                   />
+                 )}
+                </div>
+                <div className="employer-profile-details">
+                  {!isEditing ? (
+                    <>
+                      <h2>{employerDetails.employerName}'s Profile</h2>
+                      <p>
+                        <strong>Name:</strong> {employerDetails.employerName}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {employerDetails.email}
+                      </p>
+                      <p>
+                        <strong>Contact Number:</strong> {employerDetails.contactNumber}
+                      </p>
+                      <p>
+                        <strong>Address:</strong> {employerDetails.address}
+                      </p>
+                      <button className="employer-edit-button" onClick={handleEditClick}>
+                        <FontAwesomeIcon icon={faEdit} /> Edit Profile
+                      </button>
+                    </>
+                  ) : (
+                    <form id="employer-edit-form" onSubmit={handleProfileUpdate}>
+                      <h2>Edit Profile</h2>
+                      <div>
+                        <label htmlFor="employerName">Name:</label>
+                        <input
+                          type="text"
+                          name="employerName"
+                          value={editedEmployerDetails.employerName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email">Email:</label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={editedEmployerDetails.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="contactNumber">Contact Number:</label>
+                        <input
+                          type="text"
+                          name="contactNumber"
+                          value={editedEmployerDetails.contactNumber}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="address">Address:</label>
+                        <input
+                          type="text"
+                          name="address"
+                          value={editedEmployerDetails.address}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <button type="submit" className="save-changes-button">Save Changes</button>
+                      <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
+                        Cancel
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </>
+            )}
           </div>
-        )}
+        </div>
+      )}
       </div>
       <footer className="employerdashboard-footer" style={{ backgroundColor: '#6300b3' }}>
         <p>&copy; 2024 Online Job Portal. All rights reserved.</p>
