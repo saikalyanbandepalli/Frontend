@@ -299,12 +299,12 @@ body {
 }
 
 /* Profile Details Card */
-.profile-details-card {
+#profile-details-card {
   position: fixed;
-  top: 25%;
+  top: 40%;
   left: 80%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: #ffffff; /* White background */
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1001;
@@ -313,19 +313,85 @@ body {
   animation: fadeIn 1s ease-in;
 }
 
-.profile-icon-container {
-  display: inline-block;
+/* Input Fields */
+.profile-details-card input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #efe2f8; /* Light grey for borders */
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: #303030; /* Black text */
+  transition: border-color 0.3s ease;
+}
+
+.profile-details-card input:focus {
+  border-color: #6300b3; /* Royal Purple for focused border */
+  outline: none;
+  background-color: #ffffff; /* White background when focused */
+}
+
+/* Edit Button with Icon */
+.edit-button {
+  background-color: #6300b3; /* Royal Purple */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 8px 12px;
   cursor: pointer;
-  transition: transform 0.3s;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  margin-top: 10px;
 }
 
-.profile-icon-jobseeker {
-  font-size: 5rem;
-  color: #fff;
+.edit-button i {
+  margin-right: 8px; /* Space between icon and text */
 }
 
-.profile-icon-container:hover .profile-icon {
-  transform: scale(1.1);
+.edit-button:hover {
+  background-color: #450086; /* Darker Royal Purple on hover */
+}
+
+/* Save and Close Buttons in Same Line */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.save-button {
+  background-color: #0318fd; /* Green for Save button */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.save-button:hover {
+  background-color: #303bb7; /* Darker green on hover */
+}
+
+.close-button2 {
+  background-color: #6300b3; /* Royal Purple */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  flex: 1;
+}
+
+.close-button2:hover {
+  background-color: #450086; /* Darker Royal Purple */
 }
 
 .close-button11 {
