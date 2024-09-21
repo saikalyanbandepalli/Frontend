@@ -234,22 +234,6 @@ const JobPortalDashBoard = () => {
         <p>Select a Job category and we'll show you relevant jobs for it!</p>
       </header>
 
-      {/* <JobSearchSection
-        categoryInput={categoryInput}
-        companyInput={companyInput}
-        jobTypeInput={jobTypeInput}
-        salaryRangeInput={salaryRangeInput}
-        handleCategoryChange={(e) => setCategoryInput(e.target.value)}
-        handleCompanyChange={(e) => setCompanyInput(e.target.value)}
-        handleJobTypeChange={(e) => setJobTypeInput(e.target.value)}
-        handleSalaryRangeChange={(e) => setSalaryRangeInput(e.target.value)}
-        filterJobs={filterJobs}
-        categorySuggestions={categorySuggestions}
-        companySuggestions={companySuggestions}
-        handleSuggestionClick={handleSuggestionClick}
-        handleCompanySuggestionClick={handleCompanySuggestionClick}
-      /> */}
-
       <div className="job-search-section">
         <div className="input-group">
           <input
