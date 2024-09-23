@@ -103,7 +103,7 @@
   }
   
   /* Edit Button */
-  .edit-button {
+  .edit-button1 {
     background-color: #6300B3;
     color: #FFFFFF;
     border: none;
@@ -113,7 +113,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .edit-button:hover {
+  .edit-button1:hover {
     background-color: #303030;
   }
   
