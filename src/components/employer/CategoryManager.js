@@ -118,7 +118,7 @@ const CategoryManager = () => {
               <td>{category.categoryDescription}</td>
               <td>
                 <div className="button-container">
-                  <button className="edit-button" onClick={() => handleEdit(category)}>Edit</button>
+                  <button className="edit-button1" onClick={() => handleEdit(category)}>Edit</button>
                   <button className="delete-button" onClick={() => handleDelete(category.categoryId)}>Delete</button>
                 </div>
               </td>
